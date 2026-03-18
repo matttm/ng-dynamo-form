@@ -5,3 +5,4 @@ backend/node_modules/
 frontend/.angular/
 frontend/dist/
 frontend/node_modules/
+frontend/package-lock.json
