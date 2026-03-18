@@ -57,8 +57,12 @@ export interface ValidationRule {
 
 export interface FormQuestionSchema {
   id: string;
+  name: string;
   type: QuestionType;
   dataType: AnswerDataType;
+  formControlName: string;
+  databaseModel: string;
+  databaseProperty: string;
   label: string;
   helpText?: string;
   placeholder?: string;

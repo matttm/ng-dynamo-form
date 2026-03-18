@@ -41,8 +41,12 @@ export const EXAMPLE_APPLICATION_FORM_SCHEMA: ConfigurableFormSchema = {
       questions: [
         {
           id: 'applicationYear',
+          name: 'applicationYear',
           type: 'radio',
           dataType: 'string',
+          formControlName: 'applicationYear',
+          databaseModel: 'application',
+          databaseProperty: 'year',
           label: 'Which application year are you filing for?',
           helpText: 'This can be prefilled from context but is still modeled as a question when year selection is user-facing.',
           defaultValue: '2026',
@@ -60,8 +64,12 @@ export const EXAMPLE_APPLICATION_FORM_SCHEMA: ConfigurableFormSchema = {
         },
         {
           id: 'operatesInState',
+          name: 'operatesInState',
           type: 'yesNo',
           dataType: 'boolean',
+          formControlName: 'operatesInState',
+          databaseModel: 'application',
+          databaseProperty: 'operatesInState',
           label: 'Does the applicant operate in New York State?',
           helpText: 'This answer drives both visibility rules and backend eligibility checks.',
           validations: [
@@ -73,8 +81,12 @@ export const EXAMPLE_APPLICATION_FORM_SCHEMA: ConfigurableFormSchema = {
         },
         {
           id: 'projectCategories',
+          name: 'projectCategories',
           type: 'multiCheckbox',
           dataType: 'stringArray',
+          formControlName: 'projectCategories',
+          databaseModel: 'application',
+          databaseProperty: 'projectCategories',
           label: 'Which project categories apply?',
           helpText: 'Multi-select values are useful when later rules depend on one or more categories.',
           options: [
@@ -115,8 +127,12 @@ export const EXAMPLE_APPLICATION_FORM_SCHEMA: ConfigurableFormSchema = {
       questions: [
         {
           id: 'businessStartDate',
+          name: 'businessStartDate',
           type: 'date',
           dataType: 'date',
+          formControlName: 'businessStartDate',
+          databaseModel: 'businessProfile',
+          databaseProperty: 'startDate',
           label: 'When did the business begin operating?',
           validations: [
             {
@@ -127,8 +143,12 @@ export const EXAMPLE_APPLICATION_FORM_SCHEMA: ConfigurableFormSchema = {
         },
         {
           id: 'employeeCount',
+          name: 'employeeCount',
           type: 'number',
           dataType: 'number',
+          formControlName: 'employeeCount',
+          databaseModel: 'businessProfile',
+          databaseProperty: 'employeeCount',
           label: 'How many full-time employees does the business have?',
           validations: [
             {
@@ -140,8 +160,12 @@ export const EXAMPLE_APPLICATION_FORM_SCHEMA: ConfigurableFormSchema = {
         },
         {
           id: 'hasPreviousGrant',
+          name: 'hasPreviousGrant',
           type: 'yesNo',
           dataType: 'boolean',
+          formControlName: 'hasPreviousGrant',
+          databaseModel: 'businessProfile',
+          databaseProperty: 'hasPreviousGrant',
           label: 'Has the applicant received this grant before?',
           validations: [
             {
@@ -152,8 +176,12 @@ export const EXAMPLE_APPLICATION_FORM_SCHEMA: ConfigurableFormSchema = {
         },
         {
           id: 'previousGrantYear',
+          name: 'previousGrantYear',
           type: 'select',
           dataType: 'string',
+          formControlName: 'previousGrantYear',
+          databaseModel: 'businessProfile',
+          databaseProperty: 'previousGrantYear',
           label: 'What year was the previous grant awarded?',
           helpText: 'This question is visible only when the applicant answered yes to the previous question.',
           options: [
@@ -198,8 +226,12 @@ export const EXAMPLE_APPLICATION_FORM_SCHEMA: ConfigurableFormSchema = {
       questions: [
         {
           id: 'requestedAmount',
+          name: 'requestedAmount',
           type: 'number',
           dataType: 'number',
+          formControlName: 'requestedAmount',
+          databaseModel: 'fundingRequest',
+          databaseProperty: 'requestedAmount',
           label: 'How much funding is being requested?',
           validations: [
             {
@@ -215,8 +247,12 @@ export const EXAMPLE_APPLICATION_FORM_SCHEMA: ConfigurableFormSchema = {
         },
         {
           id: 'requiresMatchingFunds',
+          name: 'requiresMatchingFunds',
           type: 'yesNo',
           dataType: 'boolean',
+          formControlName: 'requiresMatchingFunds',
+          databaseModel: 'fundingRequest',
+          databaseProperty: 'requiresMatchingFunds',
           label: 'Does this request require matching funds?',
           dependencies: [
             {
@@ -235,8 +271,12 @@ export const EXAMPLE_APPLICATION_FORM_SCHEMA: ConfigurableFormSchema = {
         },
         {
           id: 'matchingFundSources',
+          name: 'matchingFundSources',
           type: 'textarea',
           dataType: 'string',
+          formControlName: 'matchingFundSources',
+          databaseModel: 'fundingRequest',
+          databaseProperty: 'matchingFundSources',
           label: 'Describe the matching fund sources.',
           dependencies: [
             {
@@ -267,8 +307,12 @@ export const EXAMPLE_APPLICATION_FORM_SCHEMA: ConfigurableFormSchema = {
         },
         {
           id: 'eligibilityStatus',
+          name: 'eligibilityStatus',
           type: 'radio',
           dataType: 'string',
+          formControlName: 'eligibilityStatus',
+          databaseModel: 'fundingRequest',
+          databaseProperty: 'eligibilityStatus',
           label: 'Eligibility status',
           helpText: 'This question is displayed only after the backend eligibility result exists.',
           options: [
@@ -312,8 +356,12 @@ export const EXAMPLE_APPLICATION_FORM_SCHEMA: ConfigurableFormSchema = {
         },
         {
           id: 'manualReviewNotes',
+          name: 'manualReviewNotes',
           type: 'textarea',
           dataType: 'string',
+          formControlName: 'manualReviewNotes',
+          databaseModel: 'fundingRequest',
+          databaseProperty: 'manualReviewNotes',
           label: 'Explain why manual review is needed.',
           dependencies: [
             {
@@ -360,8 +408,12 @@ export const EXAMPLE_APPLICATION_FORM_SCHEMA: ConfigurableFormSchema = {
       questions: [
         {
           id: 'certifyAccuracy',
+          name: 'certifyAccuracy',
           type: 'checkbox',
           dataType: 'boolean',
+          formControlName: 'certifyAccuracy',
+          databaseModel: 'certifications',
+          databaseProperty: 'certifyAccuracy',
           label: 'I certify that the information in this application is accurate.',
           validations: [
             {
@@ -372,8 +424,12 @@ export const EXAMPLE_APPLICATION_FORM_SCHEMA: ConfigurableFormSchema = {
         },
         {
           id: 'acceptTerms',
+          name: 'acceptTerms',
           type: 'checkbox',
           dataType: 'boolean',
+          formControlName: 'acceptTerms',
+          databaseModel: 'certifications',
+          databaseProperty: 'acceptTerms',
           label: 'I accept the filing terms for the selected application year.',
           dependencies: [
             {

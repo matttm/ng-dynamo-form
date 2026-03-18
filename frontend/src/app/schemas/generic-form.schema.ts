@@ -32,8 +32,12 @@ export const GENERIC_FORM_SCHEMA: ConfigurableFormSchema = {
       questions: [
         {
           id: 'applicationYear',
+          name: 'applicationYear',
           type: 'radio',
           dataType: 'string',
+          formControlName: 'applicationYear',
+          databaseModel: 'application',
+          databaseProperty: 'year',
           label: 'Application year',
           helpText: 'Single selected value represented as a string.',
           defaultValue: '2026',
@@ -51,8 +55,12 @@ export const GENERIC_FORM_SCHEMA: ConfigurableFormSchema = {
         },
         {
           id: 'textValue',
+          name: 'textValue',
           type: 'text',
           dataType: 'string',
+          formControlName: 'textValue',
+          databaseModel: 'basicData',
+          databaseProperty: 'textValue',
           label: 'Text value',
           helpText: 'Free-form text stored as a string.',
           placeholder: 'Enter any string value',
@@ -65,8 +73,12 @@ export const GENERIC_FORM_SCHEMA: ConfigurableFormSchema = {
         },
         {
           id: 'numericValue',
+          name: 'numericValue',
           type: 'number',
           dataType: 'number',
+          formControlName: 'numericValue',
+          databaseModel: 'basicData',
+          databaseProperty: 'numericValue',
           label: 'Numeric value',
           helpText: 'Whole or decimal number stored as a number.',
           validations: [
@@ -79,15 +91,23 @@ export const GENERIC_FORM_SCHEMA: ConfigurableFormSchema = {
         },
         {
           id: 'dateValue',
+          name: 'dateValue',
           type: 'date',
           dataType: 'date',
+          formControlName: 'dateValue',
+          databaseModel: 'basicData',
+          databaseProperty: 'dateValue',
           label: 'Date value',
           helpText: 'Calendar date stored as a date string or normalized backend date format.',
         },
         {
           id: 'booleanValue',
+          name: 'booleanValue',
           type: 'yesNo',
           dataType: 'boolean',
+          formControlName: 'booleanValue',
+          databaseModel: 'basicData',
+          databaseProperty: 'booleanValue',
           label: 'Boolean value',
           helpText: 'Yes or no answer stored as true or false.',
           validations: [
@@ -107,8 +127,12 @@ export const GENERIC_FORM_SCHEMA: ConfigurableFormSchema = {
       questions: [
         {
           id: 'selectedOption',
+          name: 'selectedOption',
           type: 'select',
           dataType: 'string',
+          formControlName: 'selectedOption',
+          databaseModel: 'selectionData',
+          databaseProperty: 'selectedOption',
           label: 'Single select value',
           helpText: 'One selected option stored as a string.',
           options: [
@@ -119,8 +143,12 @@ export const GENERIC_FORM_SCHEMA: ConfigurableFormSchema = {
         },
         {
           id: 'selectedRadio',
+          name: 'selectedRadio',
           type: 'radio',
           dataType: 'string',
+          formControlName: 'selectedRadio',
+          databaseModel: 'selectionData',
+          databaseProperty: 'selectedRadio',
           label: 'Radio value',
           helpText: 'One selected option stored as a string.',
           options: [
@@ -130,8 +158,12 @@ export const GENERIC_FORM_SCHEMA: ConfigurableFormSchema = {
         },
         {
           id: 'selectedFlags',
+          name: 'selectedFlags',
           type: 'multiCheckbox',
           dataType: 'stringArray',
+          formControlName: 'selectedFlags',
+          databaseModel: 'selectionData',
+          databaseProperty: 'selectedFlags',
           label: 'Multiple checkbox values',
           helpText: 'Multiple selected options stored as an array of strings.',
           options: [
@@ -142,8 +174,12 @@ export const GENERIC_FORM_SCHEMA: ConfigurableFormSchema = {
         },
         {
           id: 'consentAccepted',
+          name: 'consentAccepted',
           type: 'checkbox',
           dataType: 'boolean',
+          formControlName: 'consentAccepted',
+          databaseModel: 'selectionData',
+          databaseProperty: 'consentAccepted',
           label: 'Consent checkbox',
           helpText: 'Single checkbox stored as true or false.',
         },
@@ -157,8 +193,12 @@ export const GENERIC_FORM_SCHEMA: ConfigurableFormSchema = {
       questions: [
         {
           id: 'detailsText',
+          name: 'detailsText',
           type: 'textarea',
           dataType: 'string',
+          formControlName: 'detailsText',
+          databaseModel: 'conditionalData',
+          databaseProperty: 'detailsText',
           label: 'Details text',
           helpText: 'Long-form text stored as a string.',
           dependencies: [
@@ -178,8 +218,12 @@ export const GENERIC_FORM_SCHEMA: ConfigurableFormSchema = {
         },
         {
           id: 'derivedStatus',
+          name: 'derivedStatus',
           type: 'radio',
           dataType: 'string',
+          formControlName: 'derivedStatus',
+          databaseModel: 'conditionalData',
+          databaseProperty: 'derivedStatus',
           label: 'Derived backend status',
           helpText: 'Visible only when a backend result exists.',
           options: [
@@ -213,4 +257,3 @@ export const GENERIC_FORM_SCHEMA: ConfigurableFormSchema = {
     },
   ],
 };
-
