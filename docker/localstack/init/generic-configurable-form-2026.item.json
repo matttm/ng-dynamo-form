@@ -1,0 +1,58 @@
+{
+  "formId": { "S": "generic-configurable-form" },
+  "year": { "N": "2026" },
+  "name": { "S": "Generic Configurable Form" },
+  "schemaVersion": { "S": "2026-03-18" },
+  "config": {
+    "M": {
+      "formId": { "S": "generic-configurable-form" },
+      "name": { "S": "Generic Configurable Form" },
+      "activeYears": {
+        "L": [
+          { "N": "2025" },
+          { "N": "2026" },
+          { "N": "2027" }
+        ]
+      },
+      "steps": {
+        "L": [
+          {
+            "M": {
+              "id": { "S": "basic-data" },
+              "title": { "S": "Basic data" },
+              "questions": {
+                "L": [
+                  {
+                    "M": {
+                      "id": { "S": "applicationYear" },
+                      "name": { "S": "applicationYear" },
+                      "formControlName": { "S": "applicationYear" },
+                      "databaseModel": { "S": "application" },
+                      "databaseProperty": { "S": "year" },
+                      "type": { "S": "radio" },
+                      "dataType": { "S": "string" },
+                      "label": { "S": "Application year" }
+                    }
+                  },
+                  {
+                    "M": {
+                      "id": { "S": "textValue" },
+                      "name": { "S": "textValue" },
+                      "formControlName": { "S": "textValue" },
+                      "databaseModel": { "S": "basicData" },
+                      "databaseProperty": { "S": "textValue" },
+                      "type": { "S": "text" },
+                      "dataType": { "S": "string" },
+                      "label": { "S": "Text value" }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}
+

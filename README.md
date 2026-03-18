@@ -1,11 +1,12 @@
 # ng-dynamo-form
 
-Initial workspace for a schema-driven Angular form application backed by DynamoDB and MySQL.
+Initial workspace for a schema-driven Angular form application backed by DynamoDB, a Fastify API, and MySQL.
 
 ## What is included
 
-- `docker-compose.yml` for LocalStack with DynamoDB enabled and a local MySQL database
+- `docker-compose.yml` for LocalStack with DynamoDB enabled, a Fastify API, and a local MySQL database
 - automatic LocalStack init script that creates a `form-configurations` table
+- `backend/` Fastify service that resolves a form config by `formId` and `year`
 - `frontend/` Angular workspace with a single-page dynamic form shell
 
 ## Local infrastructure
@@ -19,9 +20,9 @@ docker compose up -d
 The init hook creates a table named `form-configurations` with:
 
 - partition key: `formId` (`S`)
-- sort key: `version` (`N`)
+- sort key: `year` (`N`)
 
-It also seeds a single demo item for `customer-intake-demo`.
+It also seeds a single demo item for `generic-configurable-form` for year `2026`.
 
 MySQL is also available with:
 
@@ -32,6 +33,22 @@ MySQL is also available with:
 - password: `form_password`
 
 The MySQL container persists data in the `mysql-data` Docker volume.
+
+## Backend API
+
+The Fastify backend exposes:
+
+```bash
+GET /api/forms/:formId/years/:year/config
+```
+
+Example:
+
+```bash
+curl http://localhost:3001/api/forms/generic-configurable-form/years/2026/config
+```
+
+The backend uses DynamoDB through LocalStack by default when started with Docker Compose.
 
 ## Frontend
 
@@ -50,5 +67,6 @@ npm start
 Once you provide the real configuration schema, the next pass should:
 
 1. map that schema into the Angular field model
-2. add a service or API layer that resolves a form definition by `formId`
-3. replace the mock data source with persisted DynamoDB-backed data
+2. replace the mock frontend data source with the Fastify API
+3. add save/update endpoints for draft and submitted form responses
+4. wire the MySQL side for relational reporting or workflow data if needed
