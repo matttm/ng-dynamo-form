@@ -17,12 +17,22 @@ Start LocalStack and MySQL:
 docker compose up -d
 ```
 
+If you changed Dockerfiles, backend dependencies, or Compose service definitions, use:
+
+```bash
+docker compose up --build
+```
+
+For a shorter reminder-oriented startup guide, see [LOCAL-DEV.md](/Users/Matt.Maloney/projects/play/ng-dynamo-form/LOCAL-DEV.md).
+
 The init hook creates a table named `form-configurations` with:
 
 - partition key: `formId` (`S`)
 - sort key: `year` (`N`)
 
 It also seeds a single demo item for `generic-configurable-form` for year `2026`.
+
+LocalStack persistence uses the `localstack-data` Docker volume, so the stack does not need to create or chown a `./.localstack` folder on the host.
 
 MySQL is also available with:
 

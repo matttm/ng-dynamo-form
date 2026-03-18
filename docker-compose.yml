@@ -12,7 +12,7 @@ services:
       LS_LOG: warn
       SERVICES: dynamodb
     volumes:
-      - ./.localstack:/var/lib/localstack
+      - localstack-data:/var/lib/localstack
       - ./docker/localstack/init:/etc/localstack/init/ready.d
     healthcheck:
       test: ["CMD", "bash", "-c", "awslocal dynamodb list-tables >/dev/null 2>&1"]
@@ -57,4 +57,5 @@ services:
       retries: 10
 
 volumes:
+  localstack-data:
   mysql-data:
