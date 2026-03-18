@@ -1,0 +1,22 @@
+services:
+  localstack:
+    image: localstack/localstack:3.7.2
+    container_name: ng-dynamo-form-localstack
+    ports:
+      - "4566:4566"
+    environment:
+      AWS_DEFAULT_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      DEBUG: 1
+      LS_LOG: warn
+      SERVICES: dynamodb
+    volumes:
+      - ./.localstack:/var/lib/localstack
+      - ./docker/localstack/init:/etc/localstack/init/ready.d
+    healthcheck:
+      test: ["CMD", "bash", "-c", "awslocal dynamodb list-tables >/dev/null 2>&1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+

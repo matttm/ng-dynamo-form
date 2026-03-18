@@ -1,0 +1,97 @@
+<main class="shell">
+  <section class="hero-panel">
+    <p class="eyebrow">Angular + DynamoDB + LocalStack</p>
+    <h1>{{ config.title }}</h1>
+    <p class="intro">
+      {{ config.subtitle }}
+    </p>
+
+    <div class="signal-list">
+      <span>Single-page renderer</span>
+      <span>Reactive form controls</span>
+      <span>Schema swap ready</span>
+    </div>
+
+    <div class="hero-note">
+      <strong>Current mode</strong>
+      <p>
+        This page is intentionally wired to a mock configuration service first. Once you share the real
+        form schema, the rendering model can be updated without replacing the page layout.
+      </p>
+    </div>
+  </section>
+
+  <section class="workspace-panel">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+      <div class="section-block" *ngFor="let section of config.sections">
+        <div class="section-header">
+          <h2>{{ section.title }}</h2>
+          <p *ngIf="section.description">{{ section.description }}</p>
+        </div>
+
+        <div class="field-grid">
+          <div class="field" *ngFor="let field of section.fields; trackBy: trackByKey" [class.field--wide]="field.type === 'textarea'">
+            <label class="field__label" *ngIf="field.type !== 'checkbox'" [attr.for]="field.key">
+              {{ field.label }}
+              <span *ngIf="field.required">Required</span>
+            </label>
+
+            <ng-container [ngSwitch]="field.type">
+              <input
+                *ngSwitchDefault
+                [id]="field.key"
+                [type]="field.type === 'email' ? 'email' : 'text'"
+                [formControlName]="field.key"
+                [placeholder]="field.placeholder || ''"
+              />
+
+              <textarea
+                *ngSwitchCase="'textarea'"
+                [id]="field.key"
+                [formControlName]="field.key"
+                [placeholder]="field.placeholder || ''"
+                rows="5"
+              ></textarea>
+
+              <select *ngSwitchCase="'select'" [id]="field.key" [formControlName]="field.key">
+                <option value="">Select one</option>
+                <option *ngFor="let option of field.options || []" [value]="option.value">
+                  {{ option.label }}
+                </option>
+              </select>
+
+              <label *ngSwitchCase="'checkbox'" class="checkbox-row" [attr.for]="field.key">
+                <input [id]="field.key" type="checkbox" [formControlName]="field.key" />
+                <span>
+                  <strong>{{ field.label }}</strong>
+                  <small *ngIf="field.helperText">{{ field.helperText }}</small>
+                </span>
+              </label>
+            </ng-container>
+
+            <small class="field__hint" *ngIf="field.type !== 'checkbox' && field.helperText">
+              {{ field.helperText }}
+            </small>
+            <small class="field__error" *ngIf="isInvalid(field)">
+              {{ validationMessage(field) }}
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="submit">{{ config.submitLabel }}</button>
+        <p>Form id: <code>{{ config.formId }}</code></p>
+      </div>
+    </form>
+
+    <aside class="preview-panel">
+      <div class="preview-panel__header">
+        <h3>Payload preview</h3>
+        <span>{{ submittedPayload ? 'Submitted draft' : 'Live draft' }}</span>
+      </div>
+      <pre>{{ previewPayload | json }}</pre>
+    </aside>
+  </section>
+</main>
+

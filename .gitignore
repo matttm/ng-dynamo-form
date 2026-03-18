@@ -1,0 +1,6 @@
+.DS_Store
+.localstack/
+frontend/.angular/
+frontend/dist/
+frontend/node_modules/
+
