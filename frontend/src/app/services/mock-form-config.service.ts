@@ -1,11 +1,22 @@
 import { Injectable } from '@angular/core';
 
 import { FormPageConfig } from '../models/configurable-form';
+import { ConfigurableFormSchema } from '../models/form-schema';
+import { EXAMPLE_APPLICATION_FORM_SCHEMA } from '../schemas/example-application-form.schema';
+import { GENERIC_FORM_SCHEMA } from '../schemas/generic-form.schema';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MockFormConfigService {
+  getExampleSchema(): ConfigurableFormSchema {
+    return EXAMPLE_APPLICATION_FORM_SCHEMA;
+  }
+
+  getGenericSchema(): ConfigurableFormSchema {
+    return GENERIC_FORM_SCHEMA;
+  }
+
   getFormConfig(): FormPageConfig {
     return {
       formId: 'customer-intake-demo',
@@ -73,4 +84,3 @@ export class MockFormConfigService {
     };
   }
 }
-
