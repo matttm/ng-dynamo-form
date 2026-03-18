@@ -30,7 +30,7 @@ The init hook creates a table named `form-configurations` with:
 - partition key: `formId` (`S`)
 - sort key: `year` (`N`)
 
-It also seeds a single demo item for `generic-configurable-form` for year `2026`.
+It also seeds demo items for `generic-configurable-form` for years `2025` and `2026`.
 
 LocalStack persistence uses the `localstack-data` Docker volume, so the stack does not need to create or chown a `./.localstack` folder on the host.
 
@@ -50,6 +50,7 @@ The Fastify backend exposes:
 
 ```bash
 GET /api/forms/:formId/years/:year/config
+POST /api/forms/:formId/years/:year/submissions
 ```
 
 Example:
@@ -57,6 +58,8 @@ Example:
 ```bash
 curl http://localhost:3001/api/forms/generic-configurable-form/years/2026/config
 ```
+
+If a resolved schema includes `submissionUrl`, the frontend posts the mapped payload there and still prints the same mapped payload to the browser console. If `submissionUrl` is absent, the frontend falls back to console-only preview mode.
 
 The backend uses DynamoDB through LocalStack by default when started with Docker Compose.
 

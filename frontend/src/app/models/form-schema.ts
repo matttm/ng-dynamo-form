@@ -11,6 +11,7 @@ export type DependencyOperator =
 export type DependencyEffect = 'visible' | 'enabled' | 'required';
 export type QuestionType =
   | 'text'
+  | 'email'
   | 'number'
   | 'date'
   | 'textarea'
@@ -98,6 +99,7 @@ export interface ConfigurableFormSchema {
   schemaVersion: string;
   formId: string;
   name: string;
+  submissionUrl?: string;
   activeYears: number[];
   context: {
     applicationYear: number;

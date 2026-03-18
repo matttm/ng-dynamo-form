@@ -1,12 +1,13 @@
 {
   "formId": { "S": "generic-configurable-form" },
   "year": { "N": "2026" },
-  "name": { "S": "Generic Configurable Form" },
-  "schemaVersion": { "S": "2026-03-18" },
+  "name": { "S": "Program Application" },
+  "schemaVersion": { "S": "application-2026.1" },
   "config": {
     "M": {
       "formId": { "S": "generic-configurable-form" },
-      "name": { "S": "Generic Configurable Form" },
+      "name": { "S": "Program Application" },
+      "submissionUrl": { "S": "/api/forms/generic-configurable-form/years/2026/submissions" },
       "activeYears": {
         "L": [
           { "N": "2025" },
@@ -16,105 +17,191 @@
       "context": {
         "M": {
           "applicationYear": { "N": "2026" },
-          "programCode": { "S": "GENERIC" },
+          "programCode": { "S": "APPLICATION" },
           "applicantType": { "S": "individual" }
         }
       },
+      "backendComputations": { "L": [] },
       "steps": {
         "L": [
           {
             "M": {
-              "id": { "S": "basic-data" },
-              "title": { "S": "Basic data (2026)" },
-              "description": { "S": "The 2026 configuration introduces more fields and a second step." },
-              "route": { "S": "basic-data" },
+              "id": { "S": "application-questions" },
+              "title": { "S": "2026 Application Questions" },
+              "description": { "S": "Adapted from the provided 2026 question set and mapped to the current schema contract." },
+              "route": { "S": "application" },
+              "applicableYears": { "L": [{ "N": "2026" }] },
               "questions": {
                 "L": [
                   {
                     "M": {
-                      "id": { "S": "applicationYear" },
-                      "name": { "S": "applicationYear" },
-                      "formControlName": { "S": "applicationYear" },
-                      "databaseModel": { "S": "application" },
-                      "databaseProperty": { "S": "year" },
-                      "type": { "S": "radio" },
-                      "dataType": { "S": "string" },
-                      "label": { "S": "Application year" },
-                      "defaultValue": { "S": "2026" },
-                      "options": {
-                        "L": [
-                          { "M": { "label": { "S": "2025" }, "value": { "S": "2025" } } },
-                          { "M": { "label": { "S": "2026" }, "value": { "S": "2026" } } }
-                        ]
-                      }
-                    }
-                  },
-                  {
-                    "M": {
-                      "id": { "S": "organizationName" },
-                      "name": { "S": "organizationName" },
-                      "formControlName": { "S": "organizationName" },
-                      "databaseModel": { "S": "profile" },
-                      "databaseProperty": { "S": "organizationName" },
+                      "id": { "S": "fullName" },
+                      "name": { "S": "fullName" },
+                      "formControlName": { "S": "fullName" },
+                      "databaseModel": { "S": "applicantProfile" },
+                      "databaseProperty": { "S": "fullName" },
                       "type": { "S": "text" },
                       "dataType": { "S": "string" },
-                      "label": { "S": "Organization name" }
+                      "label": { "S": "Applicant Full Name" }
                     }
                   },
                   {
                     "M": {
-                      "id": { "S": "requiresReview" },
-                      "name": { "S": "requiresReview" },
-                      "formControlName": { "S": "requiresReview" },
-                      "databaseModel": { "S": "profile" },
-                      "databaseProperty": { "S": "requiresReview" },
-                      "type": { "S": "yesNo" },
-                      "dataType": { "S": "boolean" },
-                      "label": { "S": "Does this configuration require review?" },
-                      "helpText": { "S": "This field only exists in the 2026 config." }
+                      "id": { "S": "email" },
+                      "name": { "S": "email" },
+                      "formControlName": { "S": "email" },
+                      "databaseModel": { "S": "applicantProfile" },
+                      "databaseProperty": { "S": "email" },
+                      "type": { "S": "email" },
+                      "dataType": { "S": "string" },
+                      "label": { "S": "Primary Email" }
                     }
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "M": {
-              "id": { "S": "review-data" },
-              "title": { "S": "Review data" },
-              "description": { "S": "The second step appears only in the 2026 configuration." },
-              "route": { "S": "review-data" },
-              "questions": {
-                "L": [
+                  },
                   {
                     "M": {
-                      "id": { "S": "workflowMode" },
-                      "name": { "S": "workflowMode" },
-                      "formControlName": { "S": "workflowMode" },
-                      "databaseModel": { "S": "review" },
-                      "databaseProperty": { "S": "workflowMode" },
-                      "type": { "S": "radio" },
+                      "id": { "S": "state" },
+                      "name": { "S": "state" },
+                      "formControlName": { "S": "state" },
+                      "databaseModel": { "S": "applicantProfile" },
+                      "databaseProperty": { "S": "state" },
+                      "type": { "S": "select" },
                       "dataType": { "S": "string" },
-                      "label": { "S": "Workflow mode" },
+                      "label": { "S": "Which state do you currently live in?" },
                       "options": {
                         "L": [
-                          { "M": { "label": { "S": "Standard" }, "value": { "S": "standard" } } },
-                          { "M": { "label": { "S": "Expedited" }, "value": { "S": "expedited" } } }
+                          { "M": { "label": { "S": "NY" }, "value": { "S": "NY" } } },
+                          { "M": { "label": { "S": "CA" }, "value": { "S": "CA" } } },
+                          { "M": { "label": { "S": "TX" }, "value": { "S": "TX" } } },
+                          { "M": { "label": { "S": "VA" }, "value": { "S": "VA" } } },
+                          { "M": { "label": { "S": "WA" }, "value": { "S": "WA" } } }
                         ]
                       }
                     }
                   },
                   {
                     "M": {
-                      "id": { "S": "reviewNotes" },
-                      "name": { "S": "reviewNotes" },
-                      "formControlName": { "S": "reviewNotes" },
-                      "databaseModel": { "S": "review" },
-                      "databaseProperty": { "S": "reviewNotes" },
+                      "id": { "S": "citizenshipStatus" },
+                      "name": { "S": "citizenshipStatus" },
+                      "formControlName": { "S": "citizenshipStatus" },
+                      "databaseModel": { "S": "applicantProfile" },
+                      "databaseProperty": { "S": "citizenshipStatus" },
+                      "type": { "S": "radio" },
+                      "dataType": { "S": "string" },
+                      "label": { "S": "Citizenship Status" },
+                      "options": {
+                        "L": [
+                          { "M": { "label": { "S": "U.S. Citizen" }, "value": { "S": "U.S. Citizen" } } },
+                          { "M": { "label": { "S": "Permanent Resident" }, "value": { "S": "Permanent Resident" } } },
+                          { "M": { "label": { "S": "Other" }, "value": { "S": "Other" } } }
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "M": {
+                      "id": { "S": "educationStatus" },
+                      "name": { "S": "educationStatus" },
+                      "formControlName": { "S": "educationStatus" },
+                      "databaseModel": { "S": "educationProfile" },
+                      "databaseProperty": { "S": "educationStatus" },
+                      "type": { "S": "radio" },
+                      "dataType": { "S": "string" },
+                      "label": { "S": "What is your current education status?" },
+                      "options": {
+                        "L": [
+                          { "M": { "label": { "S": "High School Student" }, "value": { "S": "High School Student" } } },
+                          { "M": { "label": { "S": "College Student" }, "value": { "S": "College Student" } } },
+                          { "M": { "label": { "S": "Graduate" }, "value": { "S": "Graduate" } } },
+                          { "M": { "label": { "S": "Not Currently Enrolled" }, "value": { "S": "Not Currently Enrolled" } } }
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "M": {
+                      "id": { "S": "schoolName" },
+                      "name": { "S": "schoolName" },
+                      "formControlName": { "S": "schoolName" },
+                      "databaseModel": { "S": "educationProfile" },
+                      "databaseProperty": { "S": "schoolName" },
+                      "type": { "S": "text" },
+                      "dataType": { "S": "string" },
+                      "label": { "S": "Current or Most Recent School" }
+                    }
+                  },
+                  {
+                    "M": {
+                      "id": { "S": "major" },
+                      "name": { "S": "major" },
+                      "formControlName": { "S": "major" },
+                      "databaseModel": { "S": "educationProfile" },
+                      "databaseProperty": { "S": "major" },
+                      "type": { "S": "text" },
+                      "dataType": { "S": "string" },
+                      "label": { "S": "Major or Area of Study" }
+                    }
+                  },
+                  {
+                    "M": {
+                      "id": { "S": "goals" },
+                      "name": { "S": "goals" },
+                      "formControlName": { "S": "goals" },
+                      "databaseModel": { "S": "applicationEssay" },
+                      "databaseProperty": { "S": "goals" },
                       "type": { "S": "textarea" },
                       "dataType": { "S": "string" },
-                      "label": { "S": "Review notes" },
-                      "helpText": { "S": "This textarea demonstrates a different rendered shape for 2026." }
+                      "label": { "S": "What are your academic or career goals?" }
+                    }
+                  },
+                  {
+                    "M": {
+                      "id": { "S": "whyApply" },
+                      "name": { "S": "whyApply" },
+                      "formControlName": { "S": "whyApply" },
+                      "databaseModel": { "S": "applicationEssay" },
+                      "databaseProperty": { "S": "whyApply" },
+                      "type": { "S": "textarea" },
+                      "dataType": { "S": "string" },
+                      "label": { "S": "Tell us why you are interested in this program" }
+                    }
+                  },
+                  {
+                    "M": {
+                      "id": { "S": "previousParticipation" },
+                      "name": { "S": "previousParticipation" },
+                      "formControlName": { "S": "previousParticipation" },
+                      "databaseModel": { "S": "programHistory" },
+                      "databaseProperty": { "S": "previousParticipation" },
+                      "type": { "S": "radio" },
+                      "dataType": { "S": "string" },
+                      "label": { "S": "Have you participated in this program before?" },
+                      "options": {
+                        "L": [
+                          { "M": { "label": { "S": "Yes" }, "value": { "S": "Yes" } } },
+                          { "M": { "label": { "S": "No" }, "value": { "S": "No" } } }
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "M": {
+                      "id": { "S": "referralSource" },
+                      "name": { "S": "referralSource" },
+                      "formControlName": { "S": "referralSource" },
+                      "databaseModel": { "S": "applicationMeta" },
+                      "databaseProperty": { "S": "referralSource" },
+                      "type": { "S": "select" },
+                      "dataType": { "S": "string" },
+                      "label": { "S": "How did you learn about us?" },
+                      "options": {
+                        "L": [
+                          { "M": { "label": { "S": "Friend" }, "value": { "S": "Friend" } } },
+                          { "M": { "label": { "S": "Teacher" }, "value": { "S": "Teacher" } } },
+                          { "M": { "label": { "S": "Online Search" }, "value": { "S": "Online Search" } } },
+                          { "M": { "label": { "S": "Social Media" }, "value": { "S": "Social Media" } } },
+                          { "M": { "label": { "S": "Other" }, "value": { "S": "Other" } } }
+                        ]
+                      }
                     }
                   }
                 ]

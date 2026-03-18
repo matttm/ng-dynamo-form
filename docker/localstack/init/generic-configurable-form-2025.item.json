@@ -1,12 +1,12 @@
 {
   "formId": { "S": "generic-configurable-form" },
   "year": { "N": "2025" },
-  "name": { "S": "Generic Configurable Form" },
-  "schemaVersion": { "S": "2025-01-01" },
+  "name": { "S": "Program Application" },
+  "schemaVersion": { "S": "application-2025.1" },
   "config": {
     "M": {
       "formId": { "S": "generic-configurable-form" },
-      "name": { "S": "Generic Configurable Form" },
+      "name": { "S": "Program Application" },
       "activeYears": {
         "L": [
           { "N": "2025" },
@@ -16,66 +16,188 @@
       "context": {
         "M": {
           "applicationYear": { "N": "2025" },
-          "programCode": { "S": "GENERIC" },
+          "programCode": { "S": "APPLICATION" },
           "applicantType": { "S": "individual" }
         }
       },
+      "backendComputations": { "L": [] },
       "steps": {
         "L": [
           {
             "M": {
-              "id": { "S": "basic-data" },
-              "title": { "S": "Basic data (2025)" },
-              "description": { "S": "The 2025 configuration is intentionally leaner." },
-              "route": { "S": "basic-data" },
+              "id": { "S": "application-questions" },
+              "title": { "S": "2025 Application Questions" },
+              "description": { "S": "Adapted from the provided 2025 question set and mapped to the current schema contract." },
+              "route": { "S": "application" },
+              "applicableYears": { "L": [{ "N": "2025" }] },
               "questions": {
                 "L": [
                   {
                     "M": {
-                      "id": { "S": "applicationYear" },
-                      "name": { "S": "applicationYear" },
-                      "formControlName": { "S": "applicationYear" },
-                      "databaseModel": { "S": "application" },
-                      "databaseProperty": { "S": "year" },
+                      "id": { "S": "fullName" },
+                      "name": { "S": "fullName" },
+                      "formControlName": { "S": "fullName" },
+                      "databaseModel": { "S": "applicantProfile" },
+                      "databaseProperty": { "S": "fullName" },
+                      "type": { "S": "text" },
+                      "dataType": { "S": "string" },
+                      "label": { "S": "Full Legal Name" }
+                    }
+                  },
+                  {
+                    "M": {
+                      "id": { "S": "email" },
+                      "name": { "S": "email" },
+                      "formControlName": { "S": "email" },
+                      "databaseModel": { "S": "applicantProfile" },
+                      "databaseProperty": { "S": "email" },
+                      "type": { "S": "email" },
+                      "dataType": { "S": "string" },
+                      "label": { "S": "Email Address" }
+                    }
+                  },
+                  {
+                    "M": {
+                      "id": { "S": "phone" },
+                      "name": { "S": "phone" },
+                      "formControlName": { "S": "phone" },
+                      "databaseModel": { "S": "applicantProfile" },
+                      "databaseProperty": { "S": "phone" },
+                      "type": { "S": "text" },
+                      "dataType": { "S": "string" },
+                      "label": { "S": "Phone Number" }
+                    }
+                  },
+                  {
+                    "M": {
+                      "id": { "S": "citizenshipStatus" },
+                      "name": { "S": "citizenshipStatus" },
+                      "formControlName": { "S": "citizenshipStatus" },
+                      "databaseModel": { "S": "applicantProfile" },
+                      "databaseProperty": { "S": "citizenshipStatus" },
                       "type": { "S": "radio" },
                       "dataType": { "S": "string" },
-                      "label": { "S": "Application year" },
-                      "defaultValue": { "S": "2025" },
+                      "label": { "S": "Are you a U.S. citizen?" },
                       "options": {
                         "L": [
-                          { "M": { "label": { "S": "2025" }, "value": { "S": "2025" } } },
-                          { "M": { "label": { "S": "2026" }, "value": { "S": "2026" } } }
+                          { "M": { "label": { "S": "Yes" }, "value": { "S": "Yes" } } },
+                          { "M": { "label": { "S": "No" }, "value": { "S": "No" } } }
                         ]
                       }
                     }
                   },
                   {
                     "M": {
-                      "id": { "S": "organizationName" },
-                      "name": { "S": "organizationName" },
-                      "formControlName": { "S": "organizationName" },
-                      "databaseModel": { "S": "profile" },
-                      "databaseProperty": { "S": "organizationName" },
-                      "type": { "S": "text" },
+                      "id": { "S": "state" },
+                      "name": { "S": "state" },
+                      "formControlName": { "S": "state" },
+                      "databaseModel": { "S": "applicantProfile" },
+                      "databaseProperty": { "S": "state" },
+                      "type": { "S": "select" },
                       "dataType": { "S": "string" },
-                      "label": { "S": "Organization name" },
-                      "helpText": { "S": "2025 only requires one text field plus a category selection." }
+                      "label": { "S": "State of Residence" },
+                      "options": {
+                        "L": [
+                          { "M": { "label": { "S": "NY" }, "value": { "S": "NY" } } },
+                          { "M": { "label": { "S": "CA" }, "value": { "S": "CA" } } },
+                          { "M": { "label": { "S": "TX" }, "value": { "S": "TX" } } },
+                          { "M": { "label": { "S": "VA" }, "value": { "S": "VA" } } }
+                        ]
+                      }
                     }
                   },
                   {
                     "M": {
-                      "id": { "S": "category" },
-                      "name": { "S": "category" },
-                      "formControlName": { "S": "category" },
-                      "databaseModel": { "S": "profile" },
-                      "databaseProperty": { "S": "category" },
-                      "type": { "S": "select" },
+                      "id": { "S": "isStudent" },
+                      "name": { "S": "isStudent" },
+                      "formControlName": { "S": "isStudent" },
+                      "databaseModel": { "S": "educationProfile" },
+                      "databaseProperty": { "S": "isStudent" },
+                      "type": { "S": "radio" },
                       "dataType": { "S": "string" },
-                      "label": { "S": "Category" },
+                      "label": { "S": "Are you currently a student?" },
                       "options": {
                         "L": [
-                          { "M": { "label": { "S": "Standard" }, "value": { "S": "standard" } } },
-                          { "M": { "label": { "S": "Small business" }, "value": { "S": "small-business" } } }
+                          { "M": { "label": { "S": "Yes" }, "value": { "S": "Yes" } } },
+                          { "M": { "label": { "S": "No" }, "value": { "S": "No" } } }
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "M": {
+                      "id": { "S": "schoolName" },
+                      "name": { "S": "schoolName" },
+                      "formControlName": { "S": "schoolName" },
+                      "databaseModel": { "S": "educationProfile" },
+                      "databaseProperty": { "S": "schoolName" },
+                      "type": { "S": "text" },
+                      "dataType": { "S": "string" },
+                      "label": { "S": "School Name" },
+                      "dependencies": {
+                        "L": [
+                          {
+                            "M": {
+                              "effect": { "S": "visible" },
+                              "when": { "S": "all" },
+                              "conditions": {
+                                "L": [
+                                  {
+                                    "M": {
+                                      "source": { "S": "answer" },
+                                      "field": { "S": "isStudent" },
+                                      "operator": { "S": "equals" },
+                                      "value": { "S": "Yes" }
+                                    }
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "M": {
+                      "id": { "S": "fieldOfStudy" },
+                      "name": { "S": "fieldOfStudy" },
+                      "formControlName": { "S": "fieldOfStudy" },
+                      "databaseModel": { "S": "educationProfile" },
+                      "databaseProperty": { "S": "fieldOfStudy" },
+                      "type": { "S": "text" },
+                      "dataType": { "S": "string" },
+                      "label": { "S": "Field of Study" }
+                    }
+                  },
+                  {
+                    "M": {
+                      "id": { "S": "whyApply" },
+                      "name": { "S": "whyApply" },
+                      "formControlName": { "S": "whyApply" },
+                      "databaseModel": { "S": "applicationEssay" },
+                      "databaseProperty": { "S": "whyApply" },
+                      "type": { "S": "textarea" },
+                      "dataType": { "S": "string" },
+                      "label": { "S": "Why are you applying to this program?" }
+                    }
+                  },
+                  {
+                    "M": {
+                      "id": { "S": "heardAbout" },
+                      "name": { "S": "heardAbout" },
+                      "formControlName": { "S": "heardAbout" },
+                      "databaseModel": { "S": "applicationMeta" },
+                      "databaseProperty": { "S": "heardAbout" },
+                      "type": { "S": "multiCheckbox" },
+                      "dataType": { "S": "stringArray" },
+                      "label": { "S": "How did you hear about this program?" },
+                      "options": {
+                        "L": [
+                          { "M": { "label": { "S": "Friend" }, "value": { "S": "Friend" } } },
+                          { "M": { "label": { "S": "Social Media" }, "value": { "S": "Social Media" } } },
+                          { "M": { "label": { "S": "School" }, "value": { "S": "School" } } },
+                          { "M": { "label": { "S": "Other" }, "value": { "S": "Other" } } }
                         ]
                       }
                     }
@@ -89,4 +211,3 @@
     }
   }
 }
-

@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
@@ -9,10 +10,10 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { map } from 'rxjs';
+import { catchError, map, of } from 'rxjs';
 
 import { ConfigurableFormSchema, DependencyCondition, DependencyRule, FormQuestionSchema, SchemaOption } from '../models/form-schema';
-import { FormConfigApiResponse } from '../services/backend-form-config.service';
+import { BACKEND_API_BASE_URL, FormConfigApiResponse } from '../services/backend-form-config.service';
 import { ResolvedFormConfig } from '../resolvers/form-config.resolver';
 
 type DynamicPayloadValue = string | number | boolean | string[] | null;
@@ -28,13 +29,16 @@ type FormPayload = Record<string, DynamicPayloadValue>;
 export class ConfiguredFormPageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly http = inject(HttpClient);
 
   readonly form = new UntypedFormGroup({});
 
   config: ConfigurableFormSchema | null = null;
   selectedFormId = '';
   selectedYear = 0;
+  submitting = false;
   errorMessage = '';
+  submissionMessage = '';
   submittedPayload: Record<string, Record<string, DynamicPayloadValue>> | null = null;
 
   constructor() {
@@ -47,6 +51,8 @@ export class ConfiguredFormPageComponent {
         this.selectedFormId = resolvedConfig.formId;
         this.selectedYear = resolvedConfig.year;
         this.errorMessage = resolvedConfig.errorMessage;
+        this.submissionMessage = '';
+        this.submitting = false;
         this.config = null;
         this.submittedPayload = null;
         this.resetForm();
@@ -101,7 +107,50 @@ export class ConfiguredFormPageComponent {
       return;
     }
 
-    this.submittedPayload = this.mapFormValueToDatabasePayload(this.form.getRawValue() as FormPayload);
+    const mappedPayload = this.mapFormValueToDatabasePayload(this.form.getRawValue() as FormPayload);
+    const submissionUrl = this.resolveSubmissionUrl(this.config?.submissionUrl);
+
+    this.submittedPayload = mappedPayload;
+
+    console.log('Dynamic form submission preview', {
+      formId: this.selectedFormId,
+      year: this.selectedYear,
+      submissionUrl: submissionUrl ?? null,
+      payload: mappedPayload,
+    });
+
+    if (!submissionUrl) {
+      this.submissionMessage =
+        'No submission URL is configured for this schema. The mapped payload was printed to the console.';
+      return;
+    }
+
+    this.submitting = true;
+    this.submissionMessage = `Posting mapped payload to ${submissionUrl} ...`;
+
+    this.http
+      .post(submissionUrl, {
+        formId: this.selectedFormId,
+        year: this.selectedYear,
+        payload: mappedPayload,
+      })
+      .pipe(
+        catchError(() => {
+          this.submitting = false;
+          this.submissionMessage = `Submission failed for ${submissionUrl}. The mapped payload was still printed to the console.`;
+          return of(null);
+        }),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe((response) => {
+        if (!response) {
+          return;
+        }
+
+        this.submitting = false;
+        this.submissionMessage = `Submission request completed for ${submissionUrl}.`;
+        console.log('Dynamic form submission response', response);
+      });
   }
 
   private applyResponse(response: FormConfigApiResponse): void {
@@ -246,5 +295,17 @@ export class ConfiguredFormPageComponent {
     }
 
     return mappedPayload;
+  }
+
+  private resolveSubmissionUrl(submissionUrl?: string): string | null {
+    if (!submissionUrl) {
+      return null;
+    }
+
+    if (/^https?:\/\//.test(submissionUrl)) {
+      return submissionUrl;
+    }
+
+    return `${BACKEND_API_BASE_URL}${submissionUrl}`;
   }
 }

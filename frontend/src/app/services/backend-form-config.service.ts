@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 
 import { ConfigurableFormSchema } from '../models/form-schema';
 
+export const BACKEND_API_BASE_URL = 'http://localhost:3001';
+
 export interface FormConfigApiResponse {
   formId: string;
   year: number;
@@ -17,10 +19,8 @@ export interface FormConfigApiResponse {
 })
 export class BackendFormConfigService {
   private readonly http = inject(HttpClient);
-  private readonly apiBaseUrl = 'http://localhost:3001';
 
   getFormConfig(formId: string, year: number): Observable<FormConfigApiResponse> {
-    return this.http.get<FormConfigApiResponse>(`${this.apiBaseUrl}/api/forms/${formId}/years/${year}/config`);
+    return this.http.get<FormConfigApiResponse>(`${BACKEND_API_BASE_URL}/api/forms/${formId}/years/${year}/config`);
   }
 }
-

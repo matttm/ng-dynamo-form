@@ -22,6 +22,22 @@
       </div>
     </header>
 
+    <section class="submission-card">
+      <div>
+        <p class="state-card__eyebrow">Submission target</p>
+        <p *ngIf="config.submissionUrl; else consoleOnlyTarget">
+          <code>{{ config.submissionUrl }}</code>
+        </p>
+        <ng-template #consoleOnlyTarget>
+          <p>No submission URL configured. Submit will log the mapped payload only.</p>
+        </ng-template>
+      </div>
+
+      <p class="submission-note">
+        The mapped payload is always shown below and printed to the console, even when a submission URL is present.
+      </p>
+    </section>
+
     <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
       <section class="step-card" *ngFor="let step of config.steps; let stepIndex = index">
         <div class="step-header">
@@ -51,6 +67,14 @@
                 *ngSwitchCase="'text'"
                 [id]="question.formControlName"
                 type="text"
+                [formControlName]="question.formControlName"
+                [placeholder]="question.placeholder || ''"
+              />
+
+              <input
+                *ngSwitchCase="'email'"
+                [id]="question.formControlName"
+                type="email"
                 [formControlName]="question.formControlName"
                 [placeholder]="question.placeholder || ''"
               />
@@ -130,9 +154,13 @@
       </section>
 
       <div class="actions">
-        <button type="submit">Preview mapped payload</button>
+        <button type="submit" [disabled]="submitting">
+          {{ submitting ? 'Submitting...' : 'Submit / preview mapped payload' }}
+        </button>
       </div>
     </form>
+
+    <p class="submission-status" *ngIf="submissionMessage">{{ submissionMessage }}</p>
 
     <aside class="payload-panel">
       <div class="payload-panel__header">

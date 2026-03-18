@@ -9,6 +9,7 @@
 
 .state-card,
 .page-header,
+.submission-card,
 .step-card,
 .payload-panel {
   border: 1px solid var(--line);
@@ -18,6 +19,7 @@
 }
 
 .state-card,
+.submission-card,
 .payload-panel,
 .step-card,
 .page-header {
@@ -49,7 +51,9 @@
 .page-header p,
 .step-header p,
 .question-help,
-.binding-note {
+.binding-note,
+.submission-note,
+.submission-status {
   color: var(--muted);
 }
 
@@ -73,6 +77,22 @@
 form {
   display: grid;
   gap: 1.1rem;
+}
+
+.submission-card {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.submission-card p {
+  margin: 0;
+}
+
+.submission-note {
+  max-width: 24rem;
+  line-height: 1.5;
 }
 
 .step-header {
@@ -182,6 +202,15 @@ button {
   box-shadow: 0 12px 28px rgba(207, 95, 56, 0.28);
 }
 
+button:disabled {
+  cursor: wait;
+  opacity: 0.8;
+}
+
+.submission-status {
+  margin: 0;
+}
+
 .payload-panel__header {
   display: flex;
   justify-content: space-between;
@@ -208,6 +237,7 @@ code {
 
 @media (max-width: 860px) {
   .page-header,
+  .submission-card,
   .step-header,
   .payload-panel__header {
     flex-direction: column;
@@ -218,4 +248,3 @@ code {
     grid-template-columns: 1fr;
   }
 }
-
