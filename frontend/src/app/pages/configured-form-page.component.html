@@ -1,0 +1,145 @@
+<section class="render-shell">
+  <div class="state-card state-card--error" *ngIf="errorMessage">
+    <p class="state-card__eyebrow">Configuration error</p>
+    <h2>Unable to render this year</h2>
+    <p>{{ errorMessage }}</p>
+  </div>
+
+  <ng-container *ngIf="config">
+    <header class="page-header">
+      <div>
+        <p class="state-card__eyebrow">Resolved before render</p>
+        <h2>{{ config.name }}</h2>
+        <p>
+          This component is building controls from route-resolved backend config for
+          <code>{{ selectedFormId }}</code> and <code>{{ selectedYear }}</code>.
+        </p>
+      </div>
+
+      <div class="header-badges">
+        <span>Steps: {{ config.steps.length }}</span>
+        <span>Year: {{ config.context.applicationYear }}</span>
+      </div>
+    </header>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+      <section class="step-card" *ngFor="let step of config.steps; let stepIndex = index">
+        <div class="step-header">
+          <div>
+            <p class="step-index">Step {{ stepIndex + 1 }}</p>
+            <h3>{{ step.title }}</h3>
+            <p *ngIf="step.description">{{ step.description }}</p>
+          </div>
+          <span>{{ step.route }}</span>
+        </div>
+
+        <div class="question-grid">
+          <div
+            class="question-card"
+            *ngFor="let question of step.questions"
+            [class.question-card--wide]="question.type === 'textarea' || question.type === 'multiCheckbox'"
+            [hidden]="!isQuestionVisible(question)"
+          >
+            <label class="question-label" *ngIf="question.type !== 'checkbox'" [attr.for]="question.formControlName">
+              {{ question.label }}
+            </label>
+
+            <p class="question-help" *ngIf="question.helpText">{{ question.helpText }}</p>
+
+            <ng-container [ngSwitch]="question.type">
+              <input
+                *ngSwitchCase="'text'"
+                [id]="question.formControlName"
+                type="text"
+                [formControlName]="question.formControlName"
+                [placeholder]="question.placeholder || ''"
+              />
+
+              <input
+                *ngSwitchCase="'number'"
+                [id]="question.formControlName"
+                type="number"
+                [formControlName]="question.formControlName"
+                [placeholder]="question.placeholder || ''"
+              />
+
+              <input
+                *ngSwitchCase="'date'"
+                [id]="question.formControlName"
+                type="date"
+                [formControlName]="question.formControlName"
+              />
+
+              <textarea
+                *ngSwitchCase="'textarea'"
+                [id]="question.formControlName"
+                [formControlName]="question.formControlName"
+                [placeholder]="question.placeholder || ''"
+                rows="5"
+              ></textarea>
+
+              <select *ngSwitchCase="'select'" [id]="question.formControlName" [formControlName]="question.formControlName">
+                <option value="">Select one</option>
+                <option *ngFor="let option of question.options || []" [value]="option.value">
+                  {{ option.label }}
+                </option>
+              </select>
+
+              <div *ngSwitchCase="'radio'" class="choice-group">
+                <label class="choice-chip" *ngFor="let option of question.options || []">
+                  <input type="radio" [formControlName]="question.formControlName" [value]="option.value" />
+                  <span>{{ option.label }}</span>
+                </label>
+              </div>
+
+              <div *ngSwitchCase="'yesNo'" class="choice-group choice-group--binary">
+                <label class="choice-chip">
+                  <input type="radio" [formControlName]="question.formControlName" [value]="true" />
+                  <span>Yes</span>
+                </label>
+                <label class="choice-chip">
+                  <input type="radio" [formControlName]="question.formControlName" [value]="false" />
+                  <span>No</span>
+                </label>
+              </div>
+
+              <label *ngSwitchCase="'checkbox'" class="checkbox-card" [attr.for]="question.formControlName">
+                <input [id]="question.formControlName" type="checkbox" [formControlName]="question.formControlName" />
+                <span>{{ question.label }}</span>
+              </label>
+
+              <div *ngSwitchCase="'multiCheckbox'" class="multi-choice-grid">
+                <label class="choice-chip" *ngFor="let option of question.options || []">
+                  <input
+                    type="checkbox"
+                    [checked]="isMultiCheckboxSelected(question, option)"
+                    (change)="toggleMultiCheckbox(question, option, $any($event.target).checked)"
+                  />
+                  <span>{{ option.label }}</span>
+                </label>
+              </div>
+            </ng-container>
+
+            <p class="binding-note">
+              <code>{{ question.formControlName }}</code>
+              maps to
+              <code>{{ question.databaseModel }}.{{ question.databaseProperty }}</code>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <div class="actions">
+        <button type="submit">Preview mapped payload</button>
+      </div>
+    </form>
+
+    <aside class="payload-panel">
+      <div class="payload-panel__header">
+        <h3>Mapped backend payload</h3>
+        <span>{{ submittedPayload ? 'Submitted snapshot' : 'Live snapshot' }}</span>
+      </div>
+      <pre>{{ (submittedPayload || liveMappedPayload) | json }}</pre>
+    </aside>
+  </ng-container>
+</section>

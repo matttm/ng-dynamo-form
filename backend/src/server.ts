@@ -1,3 +1,4 @@
+import cors from '@fastify/cors';
 import Fastify from 'fastify';
 
 import { getAppConfig } from './config';
@@ -13,6 +14,10 @@ async function buildServer() {
 
   const app = Fastify({
     logger: true,
+  });
+
+  await app.register(cors, {
+    origin: true,
   });
 
   app.get('/health', async () => ({

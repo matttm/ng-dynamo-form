@@ -1,8 +1,8 @@
 {
   "formId": { "S": "generic-configurable-form" },
-  "year": { "N": "2026" },
+  "year": { "N": "2025" },
   "name": { "S": "Generic Configurable Form" },
-  "schemaVersion": { "S": "2026-03-18" },
+  "schemaVersion": { "S": "2025-01-01" },
   "config": {
     "M": {
       "formId": { "S": "generic-configurable-form" },
@@ -15,7 +15,7 @@
       },
       "context": {
         "M": {
-          "applicationYear": { "N": "2026" },
+          "applicationYear": { "N": "2025" },
           "programCode": { "S": "GENERIC" },
           "applicantType": { "S": "individual" }
         }
@@ -25,8 +25,8 @@
           {
             "M": {
               "id": { "S": "basic-data" },
-              "title": { "S": "Basic data (2026)" },
-              "description": { "S": "The 2026 configuration introduces more fields and a second step." },
+              "title": { "S": "Basic data (2025)" },
+              "description": { "S": "The 2025 configuration is intentionally leaner." },
               "route": { "S": "basic-data" },
               "questions": {
                 "L": [
@@ -40,7 +40,7 @@
                       "type": { "S": "radio" },
                       "dataType": { "S": "string" },
                       "label": { "S": "Application year" },
-                      "defaultValue": { "S": "2026" },
+                      "defaultValue": { "S": "2025" },
                       "options": {
                         "L": [
                           { "M": { "label": { "S": "2025" }, "value": { "S": "2025" } } },
@@ -58,63 +58,26 @@
                       "databaseProperty": { "S": "organizationName" },
                       "type": { "S": "text" },
                       "dataType": { "S": "string" },
-                      "label": { "S": "Organization name" }
+                      "label": { "S": "Organization name" },
+                      "helpText": { "S": "2025 only requires one text field plus a category selection." }
                     }
                   },
                   {
                     "M": {
-                      "id": { "S": "requiresReview" },
-                      "name": { "S": "requiresReview" },
-                      "formControlName": { "S": "requiresReview" },
+                      "id": { "S": "category" },
+                      "name": { "S": "category" },
+                      "formControlName": { "S": "category" },
                       "databaseModel": { "S": "profile" },
-                      "databaseProperty": { "S": "requiresReview" },
-                      "type": { "S": "yesNo" },
-                      "dataType": { "S": "boolean" },
-                      "label": { "S": "Does this configuration require review?" },
-                      "helpText": { "S": "This field only exists in the 2026 config." }
-                    }
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "M": {
-              "id": { "S": "review-data" },
-              "title": { "S": "Review data" },
-              "description": { "S": "The second step appears only in the 2026 configuration." },
-              "route": { "S": "review-data" },
-              "questions": {
-                "L": [
-                  {
-                    "M": {
-                      "id": { "S": "workflowMode" },
-                      "name": { "S": "workflowMode" },
-                      "formControlName": { "S": "workflowMode" },
-                      "databaseModel": { "S": "review" },
-                      "databaseProperty": { "S": "workflowMode" },
-                      "type": { "S": "radio" },
+                      "databaseProperty": { "S": "category" },
+                      "type": { "S": "select" },
                       "dataType": { "S": "string" },
-                      "label": { "S": "Workflow mode" },
+                      "label": { "S": "Category" },
                       "options": {
                         "L": [
                           { "M": { "label": { "S": "Standard" }, "value": { "S": "standard" } } },
-                          { "M": { "label": { "S": "Expedited" }, "value": { "S": "expedited" } } }
+                          { "M": { "label": { "S": "Small business" }, "value": { "S": "small-business" } } }
                         ]
                       }
-                    }
-                  },
-                  {
-                    "M": {
-                      "id": { "S": "reviewNotes" },
-                      "name": { "S": "reviewNotes" },
-                      "formControlName": { "S": "reviewNotes" },
-                      "databaseModel": { "S": "review" },
-                      "databaseProperty": { "S": "reviewNotes" },
-                      "type": { "S": "textarea" },
-                      "dataType": { "S": "string" },
-                      "label": { "S": "Review notes" },
-                      "helpText": { "S": "This textarea demonstrates a different rendered shape for 2026." }
                     }
                   }
                 ]
@@ -126,3 +89,4 @@
     }
   }
 }
+

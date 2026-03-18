@@ -1,100 +1,66 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import {
-  AbstractControl,
-  ReactiveFormsModule,
-  UntypedFormControl,
-  UntypedFormGroup,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
-
-import { FormFieldConfig, FormPageConfig } from './models/configurable-form';
-import { MockFormConfigService } from './services/mock-form-config.service';
-
-type DynamicFormPayload = Record<string, string | boolean | null>;
+import { Component, DestroyRef, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  private readonly formConfigService = inject(MockFormConfigService);
+  private readonly router = inject(Router);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly destroyRef = inject(DestroyRef);
 
-  readonly config: FormPageConfig = this.formConfigService.getFormConfig();
-  readonly form = new UntypedFormGroup({});
+  readonly formOptions = [
+    {
+      label: 'Generic configurable form',
+      value: 'generic-configurable-form',
+    },
+  ];
 
-  submittedPayload: DynamicFormPayload | null = null;
+  readonly yearOptions = [2025, 2026];
+  selectedFormId = 'generic-configurable-form';
+  selectedYear = 2026;
 
   constructor() {
-    this.buildForm();
+    this.syncSelectionFromRoute();
+
+    this.router.events
+      .pipe(
+        filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(() => {
+        this.syncSelectionFromRoute();
+      });
   }
 
-  get previewPayload(): DynamicFormPayload {
-    return this.submittedPayload ?? (this.form.getRawValue() as DynamicFormPayload);
+  navigateToSelection(): void {
+    void this.router.navigate(['/forms', this.selectedFormId, 'years', this.selectedYear]);
   }
 
-  controlFor(key: string): AbstractControl | null {
-    return this.form.get(key);
-  }
+  private syncSelectionFromRoute(): void {
+    let currentRoute = this.activatedRoute;
 
-  isInvalid(field: FormFieldConfig): boolean {
-    const control = this.controlFor(field.key);
-    return !!control && control.invalid && (control.touched || control.dirty);
-  }
-
-  validationMessage(field: FormFieldConfig): string {
-    const control = this.controlFor(field.key);
-
-    if (!control?.errors) {
-      return '';
+    while (currentRoute.firstChild) {
+      currentRoute = currentRoute.firstChild;
     }
 
-    if (control.errors['required']) {
-      return `${field.label} is required.`;
+    const formId = currentRoute.snapshot.paramMap.get('formId');
+    const year = Number(currentRoute.snapshot.paramMap.get('year'));
+
+    if (formId) {
+      this.selectedFormId = formId;
     }
 
-    if (control.errors['email']) {
-      return 'Enter a valid email address.';
-    }
-
-    return 'Check this field.';
-  }
-
-  trackByKey(_index: number, field: FormFieldConfig): string {
-    return field.key;
-  }
-
-  onSubmit(): void {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      return;
-    }
-
-    this.submittedPayload = this.form.getRawValue() as DynamicFormPayload;
-  }
-
-  private buildForm(): void {
-    for (const section of this.config.sections) {
-      for (const field of section.fields) {
-        const validators: ValidatorFn[] = [];
-
-        if (field.required) {
-          validators.push(Validators.required);
-        }
-
-        if (field.type === 'email') {
-          validators.push(Validators.email);
-        }
-
-        const initialValue = field.defaultValue ?? (field.type === 'checkbox' ? false : '');
-
-        this.form.addControl(field.key, new UntypedFormControl(initialValue, validators));
-      }
+    if (Number.isInteger(year) && this.yearOptions.includes(year)) {
+      this.selectedYear = year;
     }
   }
 }
-

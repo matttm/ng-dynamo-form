@@ -9,9 +9,7 @@
   max-width: 1240px;
   margin: 0 auto;
   padding: 2rem 1.25rem 3rem;
-}
-
-.hero-panel,
+.control-panel,
 .workspace-panel {
   border: 1px solid var(--line);
   border-radius: 28px;
@@ -19,9 +17,11 @@
   box-shadow: var(--shadow);
   backdrop-filter: blur(18px);
   animation: rise-in 400ms ease-out;
+  backdrop-filter: blur(18px);
+  animation: rise-in 400ms ease-out;
 }
 
-.hero-panel {
+.control-panel {
   position: sticky;
   top: 1.5rem;
   align-self: start;
@@ -29,17 +29,13 @@
   overflow: hidden;
 }
 
-.hero-panel::after {
+.control-panel::after {
   content: '';
   position: absolute;
   inset: auto -10% -15% 20%;
   height: 220px;
   background: radial-gradient(circle, rgba(207, 95, 56, 0.18), transparent 70%);
   pointer-events: none;
-}
-
-.workspace-panel {
-  padding: 1.5rem;
 }
 
 .eyebrow {
@@ -52,8 +48,6 @@
 }
 
 h1,
-h2,
-h3,
 p {
   margin-top: 0;
 }
@@ -79,8 +73,7 @@ h1 {
   margin: 1.5rem 0;
 }
 
-.signal-list span,
-.preview-panel__header span {
+.signal-list span {
   border: 1px solid rgba(36, 92, 85, 0.18);
   border-radius: 999px;
   background: rgba(36, 92, 85, 0.08);
@@ -91,73 +84,35 @@ h1 {
 }
 
 .hero-note,
-.preview-panel {
+.selection-card {
   border: 1px solid var(--line);
   border-radius: 20px;
   background: var(--surface-strong);
 }
 
-.hero-note {
-  margin-top: 2rem;
-  padding: 1rem 1.1rem;
-}
-
-.hero-note strong {
-  display: inline-block;
-  margin-bottom: 0.5rem;
-}
-
-.hero-note p {
-  margin-bottom: 0;
-  color: var(--muted);
-  line-height: 1.6;
-}
-
-form {
+.selection-card {
   display: grid;
-  gap: 1.25rem;
-}
-
-.section-block {
-  border: 1px solid var(--line);
-  border-radius: 22px;
-  background: rgba(255, 255, 255, 0.46);
-  padding: 1.25rem;
-}
-
-.section-header p {
-  color: var(--muted);
-  line-height: 1.6;
-}
-
-.field-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
+  margin-top: 1.5rem;
+  padding: 1.1rem;
 }
 
-.field {
+.selection-field {
   display: grid;
   gap: 0.45rem;
 }
 
-.field--wide {
-  grid-column: 1 / -1;
-}
-
-.field__label {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
+.selection-field span,
+.hero-note strong {
+  display: inline-block;
+  margin-bottom: 0.2rem;
   font-size: 0.92rem;
   font-weight: 700;
 }
 
-.field__label span {
-  color: var(--accent);
-  font-size: 0.77rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+.hero-note {
+  margin-top: 1.5rem;
+  padding: 1rem 1.1rem;
 }
 
 input,
@@ -179,93 +134,8 @@ textarea:focus {
   border-color: rgba(207, 95, 56, 0.7);
   box-shadow: 0 0 0 4px rgba(207, 95, 56, 0.12);
   transform: translateY(-1px);
-}
-
-textarea {
-  resize: vertical;
-  min-height: 8rem;
-}
-
-.checkbox-row {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.85rem;
-  border: 1px solid rgba(31, 41, 51, 0.14);
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.88);
-  padding: 1rem;
-}
-
-.checkbox-row input {
-  width: 18px;
-  height: 18px;
-  margin-top: 0.15rem;
-  accent-color: var(--accent);
-}
-
-.checkbox-row span {
-  display: grid;
-  gap: 0.2rem;
-}
-
-.checkbox-row small,
-.field__hint,
-.actions p {
-  color: var(--muted);
-}
-
-.field__error {
-  color: #b42318;
-  font-weight: 600;
-}
-
-.actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.25rem 0;
-}
-
-button {
-  border: 0;
-  border-radius: 999px;
-  background: linear-gradient(135deg, var(--accent) 0%, #d68133 100%);
-  color: #fff9f2;
-  padding: 0.9rem 1.35rem;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  cursor: pointer;
-  box-shadow: 0 12px 28px rgba(207, 95, 56, 0.28);
-}
-
-button:hover {
-  transform: translateY(-1px);
-}
-
-.preview-panel {
-  margin-top: 1rem;
-  padding: 1rem 1.1rem;
-}
-
-.preview-panel__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-pre {
-  margin: 0;
-  overflow: auto;
-  border-radius: 16px;
-  background: #1f2933;
-  color: #f8fafc;
-  padding: 1rem;
-  font-family: "SFMono-Regular", "Menlo", monospace;
-  font-size: 0.9rem;
-  line-height: 1.5;
+.workspace-panel {
+  padding: 1.5rem;
 }
 
 code {
@@ -289,7 +159,7 @@ code {
     grid-template-columns: 1fr;
   }
 
-  .hero-panel {
+  .control-panel {
     position: static;
   }
 }
@@ -299,17 +169,9 @@ code {
     padding-inline: 0.9rem;
   }
 
-  .hero-panel,
+  .control-panel,
   .workspace-panel {
     border-radius: 22px;
-  }
-
-  .field-grid,
-  .actions,
-  .preview-panel__header {
-    grid-template-columns: 1fr;
-    flex-direction: column;
-    align-items: stretch;
   }
 
   h1 {

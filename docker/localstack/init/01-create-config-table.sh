@@ -4,7 +4,10 @@ set -euo pipefail
 
 TABLE_NAME="form-configurations"
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-SEED_ITEM_PATH="${SCRIPT_DIR}/generic-configurable-form-2026.item.json"
+SEED_ITEM_PATHS=(
+  "${SCRIPT_DIR}/generic-configurable-form-2025.item.json"
+  "${SCRIPT_DIR}/generic-configurable-form-2026.item.json"
+)
 
 if awslocal dynamodb describe-table --table-name "${TABLE_NAME}" >/dev/null 2>&1; then
   echo "DynamoDB table ${TABLE_NAME} already exists."
@@ -22,9 +25,10 @@ else
   echo "Created DynamoDB table ${TABLE_NAME}."
 fi
 
-awslocal dynamodb put-item \
-  --table-name "${TABLE_NAME}" \
-  --item "file://${SEED_ITEM_PATH}"
+for seed_item_path in "${SEED_ITEM_PATHS[@]}"; do
+  awslocal dynamodb put-item \
+    --table-name "${TABLE_NAME}" \
+    --item "file://${seed_item_path}"
+done
 
-echo "Seeded demo form configuration item."
-
+echo "Seeded demo form configuration items."
