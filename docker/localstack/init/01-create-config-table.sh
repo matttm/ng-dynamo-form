@@ -27,8 +27,7 @@ fi
 
 for seed_item_path in "${SEED_ITEM_PATHS[@]}"; do
   awslocal dynamodb put-item \
-    --table-name "${TABLE_NAME}" \
-    --item "file://${seed_item_path}"
+    --cli-input-json "file://${seed_item_path}"
 done
 
 echo "Seeded demo form configuration items."
