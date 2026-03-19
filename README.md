@@ -2,6 +2,20 @@
 
 Initial workspace for a schema-driven Angular form application backed by DynamoDB, a Fastify API, and MySQL.
 
+## Why this setup matters
+
+This application is not shipping a hard-coded Angular form. The frontend asks the backend for the active form configuration for a specific `formId` and `year`, and the backend returns the structure of the experience at runtime. That means the rendered sections, labels, validations, dependencies, submission URLs, and backend persistence behavior can change without rebuilding the frontend for every program-year adjustment.
+
+This is useful when:
+
+- program years introduce different questions, different steps, or different sequencing
+- validations change from year to year and need to stay attached to the field definitions
+- some steps only preview payloads while others submit to concrete backend endpoints
+- operations teams or product owners need controlled schema changes without rewriting Angular components
+- backend systems need different submission targets or persistence rules by step
+
+The practical effect is that the Angular app becomes a dynamic renderer, while the backend becomes the source of truth for how the application should behave for a given year.
+
 ## What is included
 
 - `docker-compose.yml` for LocalStack with DynamoDB enabled, a Fastify API, and a local MySQL database
@@ -81,6 +95,19 @@ The backend uses DynamoDB through LocalStack by default when started with Docker
 ## Frontend
 
 The Angular app renders a config-driven, step-based form from the backend response. Question configs can now attach validations such as `required`, `requiredTrue`, `email`, `min`, `max`, `minLength`, `maxLength`, and `pattern`.
+
+## What the UI demonstrates
+
+The current UI makes the dynamic nature of the system visible:
+
+- the program year selector changes which backend configuration is requested
+- the left navigation is built from the configured step list, not from hard-coded Angular routes
+- the active step title, section description, and field set all come from backend-served config
+- field requirements and validation messages are driven by schema metadata
+- the submission target shown in the UI comes from the step configuration itself
+- the same frontend renderer can present a 2025 or 2026 application without duplicating page components
+
+This is the core payoff of the architecture: one renderer, many schemas, year-specific behavior, and backend-controlled persistence.
 
 Install dependencies and start the app:
 
