@@ -14,6 +14,8 @@ This is useful when:
 - operations teams or product owners need controlled schema changes without rewriting Angular components
 - backend systems need different submission targets or persistence rules by step
 
+<img width="1728" height="1117" alt="Screenshot 2026-03-19 at 8 16 33 AM" src="https://github.com/user-attachments/assets/6d1618e7-66fb-48a3-84c1-e77ef715f96c" />
+
 The practical effect is that the Angular app becomes a dynamic renderer, while the backend becomes the source of truth for how the application should behave for a given year.
 
 ## What is included
