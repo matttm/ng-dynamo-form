@@ -44,6 +44,8 @@ MySQL is also available with:
 
 The MySQL container persists data in the `mysql-data` Docker volume.
 
+On first startup, MySQL also runs the init scripts in [docker/mysql/init](/Users/Matt.Maloney/projects/play/ng-dynamo-form/docker/mysql/init), including the table for the `application-questions` step submissions. If the `mysql-data` volume already exists, recreate that volume before expecting new init scripts to run.
+
 ## Backend API
 
 The Fastify backend exposes:
@@ -52,6 +54,7 @@ The Fastify backend exposes:
 GET /api/forms/:formId/years/:year/config
 POST /api/forms/:formId/years/:year/submissions
 POST /api/forms/:formId/years/:year/steps/:stepId/submissions
+POST /api/forms/generic-configurable-form/years/2026/steps/application-questions/submissions
 ```
 
 Example:
@@ -61,6 +64,8 @@ curl http://localhost:3001/api/forms/generic-configurable-form/years/2026/config
 ```
 
 If a resolved step includes `submissionUrl`, the frontend posts that step payload there and still prints the same step payload to the browser console. If `submissionUrl` is absent on a step, the frontend falls back to console-only preview mode for that step.
+
+The concrete `POST /api/forms/generic-configurable-form/years/2026/steps/application-questions/submissions` endpoint now upserts the 2026 application step into MySQL using `primary_email` as the stable key within a form and year. Re-submitting the same email updates the row.
 
 The backend uses DynamoDB through LocalStack by default when started with Docker Compose.
 

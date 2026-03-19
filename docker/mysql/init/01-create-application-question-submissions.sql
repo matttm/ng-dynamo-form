@@ -1,0 +1,22 @@
+CREATE TABLE IF NOT EXISTS application_question_submissions (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  form_id VARCHAR(128) NOT NULL,
+  program_year INT NOT NULL,
+  step_id VARCHAR(128) NOT NULL,
+  applicant_full_name VARCHAR(255) NULL,
+  primary_email VARCHAR(255) NOT NULL,
+  state_code VARCHAR(32) NULL,
+  citizenship_status VARCHAR(128) NULL,
+  education_status VARCHAR(128) NULL,
+  school_name VARCHAR(255) NULL,
+  major_area_of_study VARCHAR(255) NULL,
+  academic_or_career_goals TEXT NULL,
+  why_apply TEXT NULL,
+  previous_participation VARCHAR(32) NULL,
+  referral_source VARCHAR(128) NULL,
+  submitted_payload_json JSON NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  UNIQUE KEY uq_application_question_submission (form_id, program_year, primary_email)
+);

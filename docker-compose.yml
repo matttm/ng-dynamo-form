@@ -34,8 +34,15 @@ services:
       AWS_SECRET_ACCESS_KEY: test
       DYNAMO_TABLE_NAME: form-configurations
       DYNAMO_ENDPOINT: http://localstack:4566
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: form_app
+      MYSQL_USER: form_user
+      MYSQL_PASSWORD: form_password
     depends_on:
       localstack:
+        condition: service_healthy
+      mysql:
         condition: service_healthy
 
   mysql:
@@ -50,6 +57,7 @@ services:
       MYSQL_ROOT_PASSWORD: root_password
     volumes:
       - mysql-data:/var/lib/mysql
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot_password"]
       interval: 10s
