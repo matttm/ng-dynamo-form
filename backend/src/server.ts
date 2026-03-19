@@ -81,6 +81,34 @@ async function buildServer() {
     });
   });
 
+  app.post<{
+    Params: {
+      formId: string;
+      year: string;
+      stepId: string;
+    };
+    Body: {
+      payload?: unknown;
+    };
+  }>('/api/forms/:formId/years/:year/steps/:stepId/submissions', async (request, reply) => {
+    const year = Number(request.params.year);
+
+    if (!Number.isInteger(year)) {
+      return reply.code(400).send({
+        message: 'The year parameter must be an integer.',
+      });
+    }
+
+    return reply.code(202).send({
+      message: 'Step submission payload received.',
+      formId: request.params.formId,
+      year,
+      stepId: request.params.stepId,
+      payload: request.body?.payload ?? null,
+      receivedAt: new Date().toISOString(),
+    });
+  });
+
   return {
     app,
     config,

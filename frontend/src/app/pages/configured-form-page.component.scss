@@ -9,8 +9,8 @@
 
 .state-card,
 .page-header,
-.submission-card,
 .step-card,
+.step-nav,
 .payload-panel {
   border: 1px solid var(--line);
   border-radius: 24px;
@@ -19,8 +19,8 @@
 }
 
 .state-card,
-.submission-card,
 .payload-panel,
+.step-nav,
 .step-card,
 .page-header {
   padding: 1.25rem;
@@ -52,7 +52,6 @@
 .step-header p,
 .question-help,
 .binding-note,
-.submission-note,
 .submission-status {
   color: var(--muted);
 }
@@ -79,6 +78,44 @@ form {
   gap: 1.1rem;
 }
 
+.page-layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.34fr) minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.step-nav {
+  position: sticky;
+  top: 1.25rem;
+  background: rgba(255, 250, 243, 0.82);
+  box-shadow: var(--shadow);
+}
+
+.step-nav nav {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.step-nav__link {
+  display: grid;
+  gap: 0.2rem;
+  border: 1px solid rgba(31, 41, 51, 0.1);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--ink);
+  padding: 0.9rem 1rem;
+  text-decoration: none;
+}
+
+.step-nav__link span {
+  color: var(--accent-deep);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .submission-card {
   display: flex;
   justify-content: space-between;
@@ -88,11 +125,6 @@ form {
 
 .submission-card p {
   margin: 0;
-}
-
-.submission-note {
-  max-width: 24rem;
-  line-height: 1.5;
 }
 
 .step-header {
@@ -236,6 +268,10 @@ code {
 }
 
 @media (max-width: 860px) {
+  .page-layout {
+    grid-template-columns: 1fr;
+  }
+
   .page-header,
   .submission-card,
   .step-header,

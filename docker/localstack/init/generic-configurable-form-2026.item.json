@@ -7,7 +7,6 @@
     "M": {
       "formId": { "S": "generic-configurable-form" },
       "name": { "S": "Program Application" },
-      "submissionUrl": { "S": "/api/forms/generic-configurable-form/years/2026/submissions" },
       "activeYears": {
         "L": [
           { "N": "2025" },
@@ -30,6 +29,7 @@
               "title": { "S": "2026 Application Questions" },
               "description": { "S": "Adapted from the provided 2026 question set and mapped to the current schema contract." },
               "route": { "S": "application" },
+              "submissionUrl": { "S": "/api/forms/generic-configurable-form/years/2026/steps/application-questions/submissions" },
               "applicableYears": { "L": [{ "N": "2026" }] },
               "questions": {
                 "L": [
@@ -38,8 +38,6 @@
                       "id": { "S": "fullName" },
                       "name": { "S": "fullName" },
                       "formControlName": { "S": "fullName" },
-                      "databaseModel": { "S": "applicantProfile" },
-                      "databaseProperty": { "S": "fullName" },
                       "type": { "S": "text" },
                       "dataType": { "S": "string" },
                       "label": { "S": "Applicant Full Name" }
@@ -50,8 +48,6 @@
                       "id": { "S": "email" },
                       "name": { "S": "email" },
                       "formControlName": { "S": "email" },
-                      "databaseModel": { "S": "applicantProfile" },
-                      "databaseProperty": { "S": "email" },
                       "type": { "S": "email" },
                       "dataType": { "S": "string" },
                       "label": { "S": "Primary Email" }
@@ -62,8 +58,6 @@
                       "id": { "S": "state" },
                       "name": { "S": "state" },
                       "formControlName": { "S": "state" },
-                      "databaseModel": { "S": "applicantProfile" },
-                      "databaseProperty": { "S": "state" },
                       "type": { "S": "select" },
                       "dataType": { "S": "string" },
                       "label": { "S": "Which state do you currently live in?" },
@@ -83,8 +77,6 @@
                       "id": { "S": "citizenshipStatus" },
                       "name": { "S": "citizenshipStatus" },
                       "formControlName": { "S": "citizenshipStatus" },
-                      "databaseModel": { "S": "applicantProfile" },
-                      "databaseProperty": { "S": "citizenshipStatus" },
                       "type": { "S": "radio" },
                       "dataType": { "S": "string" },
                       "label": { "S": "Citizenship Status" },
@@ -102,8 +94,6 @@
                       "id": { "S": "educationStatus" },
                       "name": { "S": "educationStatus" },
                       "formControlName": { "S": "educationStatus" },
-                      "databaseModel": { "S": "educationProfile" },
-                      "databaseProperty": { "S": "educationStatus" },
                       "type": { "S": "radio" },
                       "dataType": { "S": "string" },
                       "label": { "S": "What is your current education status?" },
@@ -122,8 +112,6 @@
                       "id": { "S": "schoolName" },
                       "name": { "S": "schoolName" },
                       "formControlName": { "S": "schoolName" },
-                      "databaseModel": { "S": "educationProfile" },
-                      "databaseProperty": { "S": "schoolName" },
                       "type": { "S": "text" },
                       "dataType": { "S": "string" },
                       "label": { "S": "Current or Most Recent School" }
@@ -134,8 +122,6 @@
                       "id": { "S": "major" },
                       "name": { "S": "major" },
                       "formControlName": { "S": "major" },
-                      "databaseModel": { "S": "educationProfile" },
-                      "databaseProperty": { "S": "major" },
                       "type": { "S": "text" },
                       "dataType": { "S": "string" },
                       "label": { "S": "Major or Area of Study" }
@@ -146,8 +132,6 @@
                       "id": { "S": "goals" },
                       "name": { "S": "goals" },
                       "formControlName": { "S": "goals" },
-                      "databaseModel": { "S": "applicationEssay" },
-                      "databaseProperty": { "S": "goals" },
                       "type": { "S": "textarea" },
                       "dataType": { "S": "string" },
                       "label": { "S": "What are your academic or career goals?" }
@@ -158,8 +142,6 @@
                       "id": { "S": "whyApply" },
                       "name": { "S": "whyApply" },
                       "formControlName": { "S": "whyApply" },
-                      "databaseModel": { "S": "applicationEssay" },
-                      "databaseProperty": { "S": "whyApply" },
                       "type": { "S": "textarea" },
                       "dataType": { "S": "string" },
                       "label": { "S": "Tell us why you are interested in this program" }
@@ -170,8 +152,6 @@
                       "id": { "S": "previousParticipation" },
                       "name": { "S": "previousParticipation" },
                       "formControlName": { "S": "previousParticipation" },
-                      "databaseModel": { "S": "programHistory" },
-                      "databaseProperty": { "S": "previousParticipation" },
                       "type": { "S": "radio" },
                       "dataType": { "S": "string" },
                       "label": { "S": "Have you participated in this program before?" },
@@ -188,8 +168,6 @@
                       "id": { "S": "referralSource" },
                       "name": { "S": "referralSource" },
                       "formControlName": { "S": "referralSource" },
-                      "databaseModel": { "S": "applicationMeta" },
-                      "databaseProperty": { "S": "referralSource" },
                       "type": { "S": "select" },
                       "dataType": { "S": "string" },
                       "label": { "S": "How did you learn about us?" },

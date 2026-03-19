@@ -62,8 +62,8 @@ export interface FormQuestionSchema {
   type: QuestionType;
   dataType: AnswerDataType;
   formControlName: string;
-  databaseModel: string;
-  databaseProperty: string;
+  databaseModel?: string;
+  databaseProperty?: string;
   label: string;
   helpText?: string;
   placeholder?: string;
@@ -79,6 +79,7 @@ export interface FormStepSchema {
   title: string;
   description?: string;
   route: string;
+  submissionUrl?: string;
   applicableYears?: number[];
   stepDependencies?: DependencyRule[];
   questions: FormQuestionSchema[];
@@ -99,7 +100,6 @@ export interface ConfigurableFormSchema {
   schemaVersion: string;
   formId: string;
   name: string;
-  submissionUrl?: string;
   activeYears: number[];
   context: {
     applicationYear: number;

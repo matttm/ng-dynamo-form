@@ -51,6 +51,7 @@ The Fastify backend exposes:
 ```bash
 GET /api/forms/:formId/years/:year/config
 POST /api/forms/:formId/years/:year/submissions
+POST /api/forms/:formId/years/:year/steps/:stepId/submissions
 ```
 
 Example:
@@ -59,7 +60,7 @@ Example:
 curl http://localhost:3001/api/forms/generic-configurable-form/years/2026/config
 ```
 
-If a resolved schema includes `submissionUrl`, the frontend posts the mapped payload there and still prints the same mapped payload to the browser console. If `submissionUrl` is absent, the frontend falls back to console-only preview mode.
+If a resolved step includes `submissionUrl`, the frontend posts that step payload there and still prints the same step payload to the browser console. If `submissionUrl` is absent on a step, the frontend falls back to console-only preview mode for that step.
 
 The backend uses DynamoDB through LocalStack by default when started with Docker Compose.
 

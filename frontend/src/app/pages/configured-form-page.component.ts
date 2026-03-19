@@ -12,12 +12,20 @@ import {
 } from '@angular/forms';
 import { catchError, map, of } from 'rxjs';
 
-import { ConfigurableFormSchema, DependencyCondition, DependencyRule, FormQuestionSchema, SchemaOption } from '../models/form-schema';
+import {
+  ConfigurableFormSchema,
+  DependencyCondition,
+  DependencyRule,
+  FormQuestionSchema,
+  FormStepSchema,
+  SchemaOption,
+} from '../models/form-schema';
 import { BACKEND_API_BASE_URL, FormConfigApiResponse } from '../services/backend-form-config.service';
 import { ResolvedFormConfig } from '../resolvers/form-config.resolver';
 
 type DynamicPayloadValue = string | number | boolean | string[] | null;
 type FormPayload = Record<string, DynamicPayloadValue>;
+type StepPayload = Record<string, DynamicPayloadValue>;
 
 @Component({
   selector: 'app-configured-form-page',
@@ -36,10 +44,11 @@ export class ConfiguredFormPageComponent {
   config: ConfigurableFormSchema | null = null;
   selectedFormId = '';
   selectedYear = 0;
-  submitting = false;
+  submittingStepId: string | null = null;
   errorMessage = '';
-  submissionMessage = '';
-  submittedPayload: Record<string, Record<string, DynamicPayloadValue>> | null = null;
+  latestSubmissionMessage = '';
+  latestSubmittedStepId: string | null = null;
+  submittedStepPayloads: Record<string, StepPayload> = {};
 
   constructor() {
     this.route.data
@@ -51,10 +60,11 @@ export class ConfiguredFormPageComponent {
         this.selectedFormId = resolvedConfig.formId;
         this.selectedYear = resolvedConfig.year;
         this.errorMessage = resolvedConfig.errorMessage;
-        this.submissionMessage = '';
-        this.submitting = false;
+        this.latestSubmissionMessage = '';
+        this.submittingStepId = null;
+        this.latestSubmittedStepId = null;
         this.config = null;
-        this.submittedPayload = null;
+        this.submittedStepPayloads = {};
         this.resetForm();
 
         if (!resolvedConfig.response) {
@@ -69,8 +79,21 @@ export class ConfiguredFormPageComponent {
     });
   }
 
-  get liveMappedPayload(): Record<string, Record<string, DynamicPayloadValue>> {
-    return this.mapFormValueToDatabasePayload(this.form.getRawValue() as FormPayload);
+  get liveStepPayloads(): Record<string, { submissionUrl: string | null; payload: StepPayload }> {
+    const livePayloads: Record<string, { submissionUrl: string | null; payload: StepPayload }> = {};
+
+    if (!this.config) {
+      return livePayloads;
+    }
+
+    for (const step of this.config.steps) {
+      livePayloads[step.id] = {
+        submissionUrl: this.resolveSubmissionUrl(step.submissionUrl),
+        payload: this.buildStepPayload(step),
+      };
+    }
+
+    return livePayloads;
   }
 
   isQuestionVisible(question: FormQuestionSchema): boolean {
@@ -101,43 +124,46 @@ export class ConfiguredFormPageComponent {
     return Array.isArray(currentValue) && currentValue.includes(option.value);
   }
 
-  onSubmit(): void {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
+  onStepSubmit(step: FormStepSchema): void {
+    if (!this.isStepValid(step)) {
       return;
     }
 
-    const mappedPayload = this.mapFormValueToDatabasePayload(this.form.getRawValue() as FormPayload);
-    const submissionUrl = this.resolveSubmissionUrl(this.config?.submissionUrl);
+    const stepPayload = this.buildStepPayload(step);
+    const submissionUrl = this.resolveSubmissionUrl(step.submissionUrl);
 
-    this.submittedPayload = mappedPayload;
+    this.submittedStepPayloads[step.id] = stepPayload;
+    this.latestSubmittedStepId = step.id;
 
-    console.log('Dynamic form submission preview', {
+    console.log('Dynamic step submission preview', {
       formId: this.selectedFormId,
       year: this.selectedYear,
+      stepId: step.id,
       submissionUrl: submissionUrl ?? null,
-      payload: mappedPayload,
+      payload: stepPayload,
     });
 
     if (!submissionUrl) {
-      this.submissionMessage =
-        'No submission URL is configured for this schema. The mapped payload was printed to the console.';
+      this.latestSubmissionMessage =
+        `No submission URL is configured for step ${step.id}. The step payload was printed to the console.`;
       return;
     }
 
-    this.submitting = true;
-    this.submissionMessage = `Posting mapped payload to ${submissionUrl} ...`;
+    this.submittingStepId = step.id;
+    this.latestSubmissionMessage = `Posting step payload to ${submissionUrl} ...`;
 
     this.http
       .post(submissionUrl, {
         formId: this.selectedFormId,
         year: this.selectedYear,
-        payload: mappedPayload,
+        stepId: step.id,
+        payload: stepPayload,
       })
       .pipe(
         catchError(() => {
-          this.submitting = false;
-          this.submissionMessage = `Submission failed for ${submissionUrl}. The mapped payload was still printed to the console.`;
+          this.submittingStepId = null;
+          this.latestSubmissionMessage =
+            `Submission failed for step ${step.id} at ${submissionUrl}. The step payload was still printed to the console.`;
           return of(null);
         }),
         takeUntilDestroyed(this.destroyRef),
@@ -147,9 +173,9 @@ export class ConfiguredFormPageComponent {
           return;
         }
 
-        this.submitting = false;
-        this.submissionMessage = `Submission request completed for ${submissionUrl}.`;
-        console.log('Dynamic form submission response', response);
+        this.submittingStepId = null;
+        this.latestSubmissionMessage = `Submission request completed for step ${step.id}.`;
+        console.log('Dynamic step submission response', response);
       });
   }
 
@@ -275,28 +301,6 @@ export class ConfiguredFormPageComponent {
     }
   }
 
-  private mapFormValueToDatabasePayload(value: FormPayload): Record<string, Record<string, DynamicPayloadValue>> {
-    const mappedPayload: Record<string, Record<string, DynamicPayloadValue>> = {};
-
-    if (!this.config) {
-      return mappedPayload;
-    }
-
-    for (const step of this.config.steps) {
-      for (const question of step.questions) {
-        const questionValue = value[question.formControlName];
-
-        if (!mappedPayload[question.databaseModel]) {
-          mappedPayload[question.databaseModel] = {};
-        }
-
-        mappedPayload[question.databaseModel][question.databaseProperty] = questionValue;
-      }
-    }
-
-    return mappedPayload;
-  }
-
   private resolveSubmissionUrl(submissionUrl?: string): string | null {
     if (!submissionUrl) {
       return null;
@@ -307,5 +311,41 @@ export class ConfiguredFormPageComponent {
     }
 
     return `${BACKEND_API_BASE_URL}${submissionUrl}`;
+  }
+
+  private buildStepPayload(step: FormStepSchema): StepPayload {
+    const rawFormValue = this.form.getRawValue() as FormPayload;
+    const stepPayload: StepPayload = {};
+
+    for (const question of step.questions) {
+      const control = this.form.get(question.formControlName);
+
+      if (!control || control.disabled || !this.isQuestionVisible(question)) {
+        continue;
+      }
+
+      stepPayload[question.name] = rawFormValue[question.formControlName] ?? null;
+    }
+
+    return stepPayload;
+  }
+
+  private isStepValid(step: FormStepSchema): boolean {
+    let valid = true;
+
+    for (const question of step.questions) {
+      const control = this.form.get(question.formControlName);
+
+      if (!control || control.disabled || !this.isQuestionVisible(question)) {
+        continue;
+      }
+
+      if (control.invalid) {
+        control.markAsTouched();
+        valid = false;
+      }
+    }
+
+    return valid;
   }
 }
