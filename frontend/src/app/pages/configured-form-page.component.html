@@ -160,6 +160,10 @@
                 binds to payload field
                 <code>{{ question.name }}</code>
               </p>
+
+              <p class="validation-message" *ngIf="shouldShowValidationMessage(question)">
+                {{ getValidationMessage(question) }}
+              </p>
             </div>
           </div>
 

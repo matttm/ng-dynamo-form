@@ -19,6 +19,7 @@ import {
   FormQuestionSchema,
   FormStepSchema,
   SchemaOption,
+  ValidationRule,
 } from '../models/form-schema';
 import { BACKEND_API_BASE_URL, FormConfigApiResponse } from '../services/backend-form-config.service';
 import { ResolvedFormConfig } from '../resolvers/form-config.resolver';
@@ -124,6 +125,39 @@ export class ConfiguredFormPageComponent {
     return Array.isArray(currentValue) && currentValue.includes(option.value);
   }
 
+  shouldShowValidationMessage(question: FormQuestionSchema): boolean {
+    const control = this.form.get(question.formControlName);
+    return Boolean(control && control.invalid && (control.touched || control.dirty));
+  }
+
+  getValidationMessage(question: FormQuestionSchema): string | null {
+    const control = this.form.get(question.formControlName);
+
+    if (!control?.errors) {
+      return null;
+    }
+
+    for (const validation of question.validations ?? []) {
+      if (this.controlHasErrorForValidation(control.errors, validation)) {
+        return validation.message;
+      }
+    }
+
+    if (control.errors['required']) {
+      return 'This field is required.';
+    }
+
+    if (control.errors['requiredTrue']) {
+      return 'This field must be accepted.';
+    }
+
+    if (control.errors['email']) {
+      return 'Enter a valid email address.';
+    }
+
+    return 'Enter a valid value.';
+  }
+
   onStepSubmit(step: FormStepSchema): void {
     if (!this.isStepValid(step)) {
       return;
@@ -187,14 +221,8 @@ export class ConfiguredFormPageComponent {
   private buildForm(config: ConfigurableFormSchema): void {
     for (const step of config.steps) {
       for (const question of step.questions) {
-        const validators: ValidatorFn[] = [];
-
-        if (question.validations?.some((validation) => validation.type === 'required')) {
-          validators.push(Validators.required);
-        }
-
         const initialValue = question.defaultValue ?? this.defaultValueFor(question);
-        this.form.addControl(question.formControlName, new UntypedFormControl(initialValue, validators));
+        this.form.addControl(question.formControlName, new UntypedFormControl(initialValue, this.buildValidators(question)));
       }
     }
 
@@ -236,6 +264,9 @@ export class ConfiguredFormPageComponent {
           continue;
         }
 
+        control.setValidators(this.buildValidators(question));
+        control.updateValueAndValidity({ emitEvent: false });
+
         if (shouldBeEnabled && control.disabled) {
           control.enable({ emitEvent: false });
         }
@@ -247,7 +278,7 @@ export class ConfiguredFormPageComponent {
     }
   }
 
-  private evaluateEffect(question: FormQuestionSchema, effect: 'visible' | 'enabled', fallback: boolean): boolean {
+  private evaluateEffect(question: FormQuestionSchema, effect: 'visible' | 'enabled' | 'required', fallback: boolean): boolean {
     const rules = question.dependencies?.filter((dependency) => dependency.effect === effect) ?? [];
 
     if (rules.length === 0) {
@@ -347,5 +378,78 @@ export class ConfiguredFormPageComponent {
     }
 
     return valid;
+  }
+
+  private buildValidators(question: FormQuestionSchema): ValidatorFn[] {
+    const validators: ValidatorFn[] = [];
+
+    for (const validation of question.validations ?? []) {
+      const validator = this.validatorForRule(question, validation);
+
+      if (validator) {
+        validators.push(validator);
+      }
+    }
+
+    if (this.evaluateEffect(question, 'required', false)) {
+      validators.push(this.requiredValidatorForQuestion(question));
+    }
+
+    return validators;
+  }
+
+  private validatorForRule(question: FormQuestionSchema, validation: ValidationRule): ValidatorFn | null {
+    switch (validation.type) {
+      case 'required':
+        return this.requiredValidatorForQuestion(question);
+      case 'requiredTrue':
+        return Validators.requiredTrue;
+      case 'email':
+        return Validators.email;
+      case 'min':
+        return typeof validation.value === 'number' ? Validators.min(validation.value) : null;
+      case 'max':
+        return typeof validation.value === 'number' ? Validators.max(validation.value) : null;
+      case 'minLength':
+        return typeof validation.value === 'number' ? Validators.minLength(validation.value) : null;
+      case 'maxLength':
+        return typeof validation.value === 'number' ? Validators.maxLength(validation.value) : null;
+      case 'pattern':
+        return typeof validation.value === 'string' ? Validators.pattern(validation.value) : null;
+      default:
+        return null;
+    }
+  }
+
+  private requiredValidatorForQuestion(question: FormQuestionSchema): ValidatorFn {
+    if (question.type === 'yesNo') {
+      return (control) =>
+        control.value === null || control.value === undefined || control.value === '' ? { required: true } : null;
+    }
+
+    return Validators.required;
+  }
+
+  private controlHasErrorForValidation(errors: Record<string, unknown>, validation: ValidationRule): boolean {
+    switch (validation.type) {
+      case 'required':
+        return Boolean(errors['required']);
+      case 'requiredTrue':
+        return Boolean(errors['requiredTrue']);
+      case 'email':
+        return Boolean(errors['email']);
+      case 'min':
+        return Boolean(errors['min']);
+      case 'max':
+        return Boolean(errors['max']);
+      case 'minLength':
+        return Boolean(errors['minlength']);
+      case 'maxLength':
+        return Boolean(errors['maxlength']);
+      case 'pattern':
+        return Boolean(errors['pattern']);
+      default:
+        return false;
+    }
   }
 }

@@ -23,6 +23,13 @@ If you changed Dockerfiles, backend dependencies, or Compose service definitions
 docker compose up --build
 ```
 
+If you changed Dynamo seed files or MySQL init scripts, recreate the persisted volumes before starting the stack so the local data stays synchronized with the repo:
+
+```bash
+docker compose down --volumes
+docker compose up --build
+```
+
 For a shorter reminder-oriented startup guide, see [LOCAL-DEV.md](/Users/Matt.Maloney/projects/play/ng-dynamo-form/LOCAL-DEV.md).
 
 The init hook creates a table named `form-configurations` with:
@@ -44,7 +51,7 @@ MySQL is also available with:
 
 The MySQL container persists data in the `mysql-data` Docker volume.
 
-On first startup, MySQL also runs the init scripts in [docker/mysql/init](/Users/Matt.Maloney/projects/play/ng-dynamo-form/docker/mysql/init), including the table for the `application-questions` step submissions. If the `mysql-data` volume already exists, recreate that volume before expecting new init scripts to run.
+On first startup, MySQL also runs the init scripts in [docker/mysql/init](/Users/Matt.Maloney/projects/play/ng-dynamo-form/docker/mysql/init), including the table that stores the persisted 2025 and 2026 step submissions. If the `mysql-data` volume already exists, recreate that volume before expecting new init scripts to run.
 
 ## Backend API
 
@@ -54,7 +61,9 @@ The Fastify backend exposes:
 GET /api/forms/:formId/years/:year/config
 POST /api/forms/:formId/years/:year/submissions
 POST /api/forms/:formId/years/:year/steps/:stepId/submissions
+POST /api/forms/generic-configurable-form/years/2025/steps/contact-preferences/submissions
 POST /api/forms/generic-configurable-form/years/2026/steps/application-questions/submissions
+POST /api/forms/generic-configurable-form/years/2026/steps/supplemental-background/submissions
 ```
 
 Example:
@@ -65,13 +74,13 @@ curl http://localhost:3001/api/forms/generic-configurable-form/years/2026/config
 
 If a resolved step includes `submissionUrl`, the frontend posts that step payload there and still prints the same step payload to the browser console. If `submissionUrl` is absent on a step, the frontend falls back to console-only preview mode for that step.
 
-The concrete `POST /api/forms/generic-configurable-form/years/2026/steps/application-questions/submissions` endpoint now upserts the 2026 application step into MySQL using `primary_email` as the stable key within a form and year. Re-submitting the same email updates the row.
+The concrete step endpoints for `2025/contact-preferences`, `2026/application-questions`, and `2026/supplemental-background` now upsert into MySQL using `primary_email` plus the form/year combination as the stable record key. Re-submitting the same email for the same year updates the existing row.
 
 The backend uses DynamoDB through LocalStack by default when started with Docker Compose.
 
 ## Frontend
 
-The Angular app currently renders a configurable one-page form from a mock service so we can swap in your real schema later without rewriting the UI.
+The Angular app renders a config-driven, step-based form from the backend response. Question configs can now attach validations such as `required`, `requiredTrue`, `email`, `min`, `max`, `minLength`, `maxLength`, and `pattern`.
 
 Install dependencies and start the app:
 

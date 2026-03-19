@@ -1,192 +1,1082 @@
 {
-  "formId": { "S": "generic-configurable-form" },
-  "year": { "N": "2026" },
-  "name": { "S": "Program Application" },
-  "schemaVersion": { "S": "application-2026.1" },
-  "config": {
-    "M": {
-      "formId": { "S": "generic-configurable-form" },
-      "name": { "S": "Program Application" },
-      "activeYears": {
-        "L": [
-          { "N": "2025" },
-          { "N": "2026" }
-        ]
-      },
-      "context": {
-        "M": {
-          "applicationYear": { "N": "2026" },
-          "programCode": { "S": "APPLICATION" },
-          "applicantType": { "S": "individual" }
-        }
-      },
-      "backendComputations": { "L": [] },
-      "steps": {
-        "L": [
-          {
-            "M": {
-              "id": { "S": "application-questions" },
-              "title": { "S": "2026 Application Questions" },
-              "description": { "S": "Adapted from the provided 2026 question set and mapped to the current schema contract." },
-              "route": { "S": "application" },
-              "submissionUrl": { "S": "/api/forms/generic-configurable-form/years/2026/steps/application-questions/submissions" },
-              "applicableYears": { "L": [{ "N": "2026" }] },
-              "questions": {
-                "L": [
-                  {
-                    "M": {
-                      "id": { "S": "fullName" },
-                      "name": { "S": "fullName" },
-                      "formControlName": { "S": "fullName" },
-                      "type": { "S": "text" },
-                      "dataType": { "S": "string" },
-                      "label": { "S": "Applicant Full Name" }
-                    }
-                  },
-                  {
-                    "M": {
-                      "id": { "S": "email" },
-                      "name": { "S": "email" },
-                      "formControlName": { "S": "email" },
-                      "type": { "S": "email" },
-                      "dataType": { "S": "string" },
-                      "label": { "S": "Primary Email" }
-                    }
-                  },
-                  {
-                    "M": {
-                      "id": { "S": "state" },
-                      "name": { "S": "state" },
-                      "formControlName": { "S": "state" },
-                      "type": { "S": "select" },
-                      "dataType": { "S": "string" },
-                      "label": { "S": "Which state do you currently live in?" },
-                      "options": {
-                        "L": [
-                          { "M": { "label": { "S": "NY" }, "value": { "S": "NY" } } },
-                          { "M": { "label": { "S": "CA" }, "value": { "S": "CA" } } },
-                          { "M": { "label": { "S": "TX" }, "value": { "S": "TX" } } },
-                          { "M": { "label": { "S": "VA" }, "value": { "S": "VA" } } },
-                          { "M": { "label": { "S": "WA" }, "value": { "S": "WA" } } }
-                        ]
-                      }
-                    }
-                  },
-                  {
-                    "M": {
-                      "id": { "S": "citizenshipStatus" },
-                      "name": { "S": "citizenshipStatus" },
-                      "formControlName": { "S": "citizenshipStatus" },
-                      "type": { "S": "radio" },
-                      "dataType": { "S": "string" },
-                      "label": { "S": "Citizenship Status" },
-                      "options": {
-                        "L": [
-                          { "M": { "label": { "S": "U.S. Citizen" }, "value": { "S": "U.S. Citizen" } } },
-                          { "M": { "label": { "S": "Permanent Resident" }, "value": { "S": "Permanent Resident" } } },
-                          { "M": { "label": { "S": "Other" }, "value": { "S": "Other" } } }
-                        ]
-                      }
-                    }
-                  },
-                  {
-                    "M": {
-                      "id": { "S": "educationStatus" },
-                      "name": { "S": "educationStatus" },
-                      "formControlName": { "S": "educationStatus" },
-                      "type": { "S": "radio" },
-                      "dataType": { "S": "string" },
-                      "label": { "S": "What is your current education status?" },
-                      "options": {
-                        "L": [
-                          { "M": { "label": { "S": "High School Student" }, "value": { "S": "High School Student" } } },
-                          { "M": { "label": { "S": "College Student" }, "value": { "S": "College Student" } } },
-                          { "M": { "label": { "S": "Graduate" }, "value": { "S": "Graduate" } } },
-                          { "M": { "label": { "S": "Not Currently Enrolled" }, "value": { "S": "Not Currently Enrolled" } } }
-                        ]
-                      }
-                    }
-                  },
-                  {
-                    "M": {
-                      "id": { "S": "schoolName" },
-                      "name": { "S": "schoolName" },
-                      "formControlName": { "S": "schoolName" },
-                      "type": { "S": "text" },
-                      "dataType": { "S": "string" },
-                      "label": { "S": "Current or Most Recent School" }
-                    }
-                  },
-                  {
-                    "M": {
-                      "id": { "S": "major" },
-                      "name": { "S": "major" },
-                      "formControlName": { "S": "major" },
-                      "type": { "S": "text" },
-                      "dataType": { "S": "string" },
-                      "label": { "S": "Major or Area of Study" }
-                    }
-                  },
-                  {
-                    "M": {
-                      "id": { "S": "goals" },
-                      "name": { "S": "goals" },
-                      "formControlName": { "S": "goals" },
-                      "type": { "S": "textarea" },
-                      "dataType": { "S": "string" },
-                      "label": { "S": "What are your academic or career goals?" }
-                    }
-                  },
-                  {
-                    "M": {
-                      "id": { "S": "whyApply" },
-                      "name": { "S": "whyApply" },
-                      "formControlName": { "S": "whyApply" },
-                      "type": { "S": "textarea" },
-                      "dataType": { "S": "string" },
-                      "label": { "S": "Tell us why you are interested in this program" }
-                    }
-                  },
-                  {
-                    "M": {
-                      "id": { "S": "previousParticipation" },
-                      "name": { "S": "previousParticipation" },
-                      "formControlName": { "S": "previousParticipation" },
-                      "type": { "S": "radio" },
-                      "dataType": { "S": "string" },
-                      "label": { "S": "Have you participated in this program before?" },
-                      "options": {
-                        "L": [
-                          { "M": { "label": { "S": "Yes" }, "value": { "S": "Yes" } } },
-                          { "M": { "label": { "S": "No" }, "value": { "S": "No" } } }
-                        ]
-                      }
-                    }
-                  },
-                  {
-                    "M": {
-                      "id": { "S": "referralSource" },
-                      "name": { "S": "referralSource" },
-                      "formControlName": { "S": "referralSource" },
-                      "type": { "S": "select" },
-                      "dataType": { "S": "string" },
-                      "label": { "S": "How did you learn about us?" },
-                      "options": {
-                        "L": [
-                          { "M": { "label": { "S": "Friend" }, "value": { "S": "Friend" } } },
-                          { "M": { "label": { "S": "Teacher" }, "value": { "S": "Teacher" } } },
-                          { "M": { "label": { "S": "Online Search" }, "value": { "S": "Online Search" } } },
-                          { "M": { "label": { "S": "Social Media" }, "value": { "S": "Social Media" } } },
-                          { "M": { "label": { "S": "Other" }, "value": { "S": "Other" } } }
-                        ]
-                      }
-                    }
-                  }
-                ]
-              }
+  "TableName": "form-configurations",
+  "Item": {
+    "formId": {
+      "S": "generic-configurable-form"
+    },
+    "year": {
+      "N": "2026"
+    },
+    "name": {
+      "S": "Program Application"
+    },
+    "schemaVersion": {
+      "S": "application-2026.2"
+    },
+    "config": {
+      "M": {
+        "schemaVersion": {
+          "S": "application-2026.2"
+        },
+        "formId": {
+          "S": "generic-configurable-form"
+        },
+        "name": {
+          "S": "Program Application"
+        },
+        "activeYears": {
+          "L": [
+            {
+              "N": "2025"
+            },
+            {
+              "N": "2026"
+            }
+          ]
+        },
+        "context": {
+          "M": {
+            "applicationYear": {
+              "N": "2026"
+            },
+            "programCode": {
+              "S": "APPLICATION"
+            },
+            "applicantType": {
+              "S": "individual"
             }
           }
-        ]
+        },
+        "backendComputations": {
+          "L": []
+        },
+        "steps": {
+          "L": [
+            {
+              "M": {
+                "id": {
+                  "S": "application-questions"
+                },
+                "title": {
+                  "S": "2026 Application Questions"
+                },
+                "description": {
+                  "S": "Primary application intake questions for the 2026 year."
+                },
+                "route": {
+                  "S": "application"
+                },
+                "submissionUrl": {
+                  "S": "/api/forms/generic-configurable-form/years/2026/steps/application-questions/submissions"
+                },
+                "applicableYears": {
+                  "L": [
+                    {
+                      "N": "2026"
+                    }
+                  ]
+                },
+                "questions": {
+                  "L": [
+                    {
+                      "M": {
+                        "id": {
+                          "S": "fullName"
+                        },
+                        "name": {
+                          "S": "fullName"
+                        },
+                        "type": {
+                          "S": "text"
+                        },
+                        "dataType": {
+                          "S": "string"
+                        },
+                        "formControlName": {
+                          "S": "fullName"
+                        },
+                        "label": {
+                          "S": "Applicant Full Name"
+                        },
+                        "validations": {
+                          "L": [
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "required"
+                                },
+                                "message": {
+                                  "S": "Applicant full name is required."
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "minLength"
+                                },
+                                "value": {
+                                  "N": "2"
+                                },
+                                "message": {
+                                  "S": "Full name must be at least 2 characters."
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "M": {
+                        "id": {
+                          "S": "email"
+                        },
+                        "name": {
+                          "S": "email"
+                        },
+                        "type": {
+                          "S": "email"
+                        },
+                        "dataType": {
+                          "S": "string"
+                        },
+                        "formControlName": {
+                          "S": "email"
+                        },
+                        "label": {
+                          "S": "Primary Email"
+                        },
+                        "validations": {
+                          "L": [
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "required"
+                                },
+                                "message": {
+                                  "S": "Primary email is required."
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "email"
+                                },
+                                "message": {
+                                  "S": "Enter a valid email address."
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "M": {
+                        "id": {
+                          "S": "state"
+                        },
+                        "name": {
+                          "S": "state"
+                        },
+                        "type": {
+                          "S": "select"
+                        },
+                        "dataType": {
+                          "S": "string"
+                        },
+                        "formControlName": {
+                          "S": "state"
+                        },
+                        "label": {
+                          "S": "Which state do you currently live in?"
+                        },
+                        "options": {
+                          "L": [
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "NY"
+                                },
+                                "value": {
+                                  "S": "NY"
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "CA"
+                                },
+                                "value": {
+                                  "S": "CA"
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "TX"
+                                },
+                                "value": {
+                                  "S": "TX"
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "VA"
+                                },
+                                "value": {
+                                  "S": "VA"
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "WA"
+                                },
+                                "value": {
+                                  "S": "WA"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "validations": {
+                          "L": [
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "required"
+                                },
+                                "message": {
+                                  "S": "Select your current state."
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "M": {
+                        "id": {
+                          "S": "citizenshipStatus"
+                        },
+                        "name": {
+                          "S": "citizenshipStatus"
+                        },
+                        "type": {
+                          "S": "radio"
+                        },
+                        "dataType": {
+                          "S": "string"
+                        },
+                        "formControlName": {
+                          "S": "citizenshipStatus"
+                        },
+                        "label": {
+                          "S": "Citizenship Status"
+                        },
+                        "options": {
+                          "L": [
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "U.S. Citizen"
+                                },
+                                "value": {
+                                  "S": "U.S. Citizen"
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "Permanent Resident"
+                                },
+                                "value": {
+                                  "S": "Permanent Resident"
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "Other"
+                                },
+                                "value": {
+                                  "S": "Other"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "validations": {
+                          "L": [
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "required"
+                                },
+                                "message": {
+                                  "S": "Select a citizenship status."
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "M": {
+                        "id": {
+                          "S": "educationStatus"
+                        },
+                        "name": {
+                          "S": "educationStatus"
+                        },
+                        "type": {
+                          "S": "radio"
+                        },
+                        "dataType": {
+                          "S": "string"
+                        },
+                        "formControlName": {
+                          "S": "educationStatus"
+                        },
+                        "label": {
+                          "S": "What is your current education status?"
+                        },
+                        "options": {
+                          "L": [
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "High School Student"
+                                },
+                                "value": {
+                                  "S": "High School Student"
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "College Student"
+                                },
+                                "value": {
+                                  "S": "College Student"
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "Graduate"
+                                },
+                                "value": {
+                                  "S": "Graduate"
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "Not Currently Enrolled"
+                                },
+                                "value": {
+                                  "S": "Not Currently Enrolled"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "validations": {
+                          "L": [
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "required"
+                                },
+                                "message": {
+                                  "S": "Select your current education status."
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "M": {
+                        "id": {
+                          "S": "schoolName"
+                        },
+                        "name": {
+                          "S": "schoolName"
+                        },
+                        "type": {
+                          "S": "text"
+                        },
+                        "dataType": {
+                          "S": "string"
+                        },
+                        "formControlName": {
+                          "S": "schoolName"
+                        },
+                        "label": {
+                          "S": "Current or Most Recent School"
+                        },
+                        "validations": {
+                          "L": [
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "required"
+                                },
+                                "message": {
+                                  "S": "School name is required."
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "M": {
+                        "id": {
+                          "S": "major"
+                        },
+                        "name": {
+                          "S": "major"
+                        },
+                        "type": {
+                          "S": "text"
+                        },
+                        "dataType": {
+                          "S": "string"
+                        },
+                        "formControlName": {
+                          "S": "major"
+                        },
+                        "label": {
+                          "S": "Major or Area of Study"
+                        },
+                        "validations": {
+                          "L": [
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "required"
+                                },
+                                "message": {
+                                  "S": "Major or area of study is required."
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "M": {
+                        "id": {
+                          "S": "goals"
+                        },
+                        "name": {
+                          "S": "goals"
+                        },
+                        "type": {
+                          "S": "textarea"
+                        },
+                        "dataType": {
+                          "S": "string"
+                        },
+                        "formControlName": {
+                          "S": "goals"
+                        },
+                        "label": {
+                          "S": "What are your academic or career goals?"
+                        },
+                        "validations": {
+                          "L": [
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "required"
+                                },
+                                "message": {
+                                  "S": "Academic or career goals are required."
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "maxLength"
+                                },
+                                "value": {
+                                  "N": "1000"
+                                },
+                                "message": {
+                                  "S": "Keep this answer under 1000 characters."
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "M": {
+                        "id": {
+                          "S": "whyApply"
+                        },
+                        "name": {
+                          "S": "whyApply"
+                        },
+                        "type": {
+                          "S": "textarea"
+                        },
+                        "dataType": {
+                          "S": "string"
+                        },
+                        "formControlName": {
+                          "S": "whyApply"
+                        },
+                        "label": {
+                          "S": "Tell us why you are interested in this program"
+                        },
+                        "validations": {
+                          "L": [
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "required"
+                                },
+                                "message": {
+                                  "S": "Explain why you are interested in this program."
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "maxLength"
+                                },
+                                "value": {
+                                  "N": "1000"
+                                },
+                                "message": {
+                                  "S": "Keep this answer under 1000 characters."
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "M": {
+                        "id": {
+                          "S": "previousParticipation"
+                        },
+                        "name": {
+                          "S": "previousParticipation"
+                        },
+                        "type": {
+                          "S": "radio"
+                        },
+                        "dataType": {
+                          "S": "string"
+                        },
+                        "formControlName": {
+                          "S": "previousParticipation"
+                        },
+                        "label": {
+                          "S": "Have you participated in this program before?"
+                        },
+                        "options": {
+                          "L": [
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "Yes"
+                                },
+                                "value": {
+                                  "S": "Yes"
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "No"
+                                },
+                                "value": {
+                                  "S": "No"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "validations": {
+                          "L": [
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "required"
+                                },
+                                "message": {
+                                  "S": "Select whether you participated before."
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "M": {
+                        "id": {
+                          "S": "referralSource"
+                        },
+                        "name": {
+                          "S": "referralSource"
+                        },
+                        "type": {
+                          "S": "select"
+                        },
+                        "dataType": {
+                          "S": "string"
+                        },
+                        "formControlName": {
+                          "S": "referralSource"
+                        },
+                        "label": {
+                          "S": "How did you learn about us?"
+                        },
+                        "options": {
+                          "L": [
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "Friend"
+                                },
+                                "value": {
+                                  "S": "Friend"
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "Teacher"
+                                },
+                                "value": {
+                                  "S": "Teacher"
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "Online Search"
+                                },
+                                "value": {
+                                  "S": "Online Search"
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "Social Media"
+                                },
+                                "value": {
+                                  "S": "Social Media"
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "Other"
+                                },
+                                "value": {
+                                  "S": "Other"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "validations": {
+                          "L": [
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "required"
+                                },
+                                "message": {
+                                  "S": "Select a referral source."
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "M": {
+                "id": {
+                  "S": "supplemental-background"
+                },
+                "title": {
+                  "S": "2026 Supplemental Background"
+                },
+                "description": {
+                  "S": "Additional persisted details collected as a second step in 2026."
+                },
+                "route": {
+                  "S": "supplemental-background"
+                },
+                "submissionUrl": {
+                  "S": "/api/forms/generic-configurable-form/years/2026/steps/supplemental-background/submissions"
+                },
+                "applicableYears": {
+                  "L": [
+                    {
+                      "N": "2026"
+                    }
+                  ]
+                },
+                "questions": {
+                  "L": [
+                    {
+                      "M": {
+                        "id": {
+                          "S": "applicationEmail"
+                        },
+                        "name": {
+                          "S": "applicationEmail"
+                        },
+                        "type": {
+                          "S": "email"
+                        },
+                        "dataType": {
+                          "S": "string"
+                        },
+                        "formControlName": {
+                          "S": "applicationEmail"
+                        },
+                        "label": {
+                          "S": "Application Email"
+                        },
+                        "helpText": {
+                          "S": "Use the same email address used in the first step so this record can be updated."
+                        },
+                        "validations": {
+                          "L": [
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "required"
+                                },
+                                "message": {
+                                  "S": "Application email is required."
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "email"
+                                },
+                                "message": {
+                                  "S": "Enter a valid email address."
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "M": {
+                        "id": {
+                          "S": "graduationYear"
+                        },
+                        "name": {
+                          "S": "graduationYear"
+                        },
+                        "type": {
+                          "S": "number"
+                        },
+                        "dataType": {
+                          "S": "number"
+                        },
+                        "formControlName": {
+                          "S": "graduationYear"
+                        },
+                        "label": {
+                          "S": "Expected Graduation Year"
+                        },
+                        "validations": {
+                          "L": [
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "required"
+                                },
+                                "message": {
+                                  "S": "Expected graduation year is required."
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "min"
+                                },
+                                "value": {
+                                  "N": "2000"
+                                },
+                                "message": {
+                                  "S": "Graduation year must be 2000 or later."
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "max"
+                                },
+                                "value": {
+                                  "N": "2035"
+                                },
+                                "message": {
+                                  "S": "Graduation year must be 2035 or earlier."
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "M": {
+                        "id": {
+                          "S": "portfolioUrl"
+                        },
+                        "name": {
+                          "S": "portfolioUrl"
+                        },
+                        "type": {
+                          "S": "text"
+                        },
+                        "dataType": {
+                          "S": "string"
+                        },
+                        "formControlName": {
+                          "S": "portfolioUrl"
+                        },
+                        "label": {
+                          "S": "Portfolio or Resume URL"
+                        },
+                        "placeholder": {
+                          "S": "https://example.com/portfolio"
+                        },
+                        "validations": {
+                          "L": [
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "pattern"
+                                },
+                                "value": {
+                                  "S": "^https?://.+"
+                                },
+                                "message": {
+                                  "S": "Enter a valid URL beginning with http:// or https://."
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "maxLength"
+                                },
+                                "value": {
+                                  "N": "512"
+                                },
+                                "message": {
+                                  "S": "Keep the URL under 512 characters."
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "M": {
+                        "id": {
+                          "S": "needsAccessibilityAccommodation"
+                        },
+                        "name": {
+                          "S": "needsAccessibilityAccommodation"
+                        },
+                        "type": {
+                          "S": "yesNo"
+                        },
+                        "dataType": {
+                          "S": "boolean"
+                        },
+                        "formControlName": {
+                          "S": "needsAccessibilityAccommodation"
+                        },
+                        "label": {
+                          "S": "Do you need an accessibility accommodation?"
+                        },
+                        "validations": {
+                          "L": [
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "required"
+                                },
+                                "message": {
+                                  "S": "Select whether you need an accessibility accommodation."
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "M": {
+                        "id": {
+                          "S": "accessibilityDetails"
+                        },
+                        "name": {
+                          "S": "accessibilityDetails"
+                        },
+                        "type": {
+                          "S": "textarea"
+                        },
+                        "dataType": {
+                          "S": "string"
+                        },
+                        "formControlName": {
+                          "S": "accessibilityDetails"
+                        },
+                        "label": {
+                          "S": "Accessibility Details"
+                        },
+                        "helpText": {
+                          "S": "Provide details only if you selected Yes above."
+                        },
+                        "validations": {
+                          "L": [
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "maxLength"
+                                },
+                                "value": {
+                                  "N": "1000"
+                                },
+                                "message": {
+                                  "S": "Keep accessibility details under 1000 characters."
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "dependencies": {
+                          "L": [
+                            {
+                              "M": {
+                                "effect": {
+                                  "S": "visible"
+                                },
+                                "when": {
+                                  "S": "all"
+                                },
+                                "conditions": {
+                                  "L": [
+                                    {
+                                      "M": {
+                                        "source": {
+                                          "S": "answer"
+                                        },
+                                        "field": {
+                                          "S": "needsAccessibilityAccommodation"
+                                        },
+                                        "operator": {
+                                          "S": "equals"
+                                        },
+                                        "value": {
+                                          "BOOL": true
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "effect": {
+                                  "S": "required"
+                                },
+                                "when": {
+                                  "S": "all"
+                                },
+                                "conditions": {
+                                  "L": [
+                                    {
+                                      "M": {
+                                        "source": {
+                                          "S": "answer"
+                                        },
+                                        "field": {
+                                          "S": "needsAccessibilityAccommodation"
+                                        },
+                                        "operator": {
+                                          "S": "equals"
+                                        },
+                                        "value": {
+                                          "BOOL": true
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
       }
     }
   }

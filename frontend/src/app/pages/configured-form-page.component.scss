@@ -172,6 +172,13 @@ form {
   line-height: 1.5;
 }
 
+.validation-message {
+  margin: 0;
+  color: #b42318;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
 input,
 select,
 textarea {

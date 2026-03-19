@@ -1,192 +1,1029 @@
 {
-  "formId": { "S": "generic-configurable-form" },
-  "year": { "N": "2025" },
-  "name": { "S": "Program Application" },
-  "schemaVersion": { "S": "application-2025.1" },
-  "config": {
-    "M": {
-      "formId": { "S": "generic-configurable-form" },
-      "name": { "S": "Program Application" },
-      "activeYears": {
-        "L": [
-          { "N": "2025" },
-          { "N": "2026" }
-        ]
-      },
-      "context": {
-        "M": {
-          "applicationYear": { "N": "2025" },
-          "programCode": { "S": "APPLICATION" },
-          "applicantType": { "S": "individual" }
-        }
-      },
-      "backendComputations": { "L": [] },
-      "steps": {
-        "L": [
-          {
-            "M": {
-              "id": { "S": "application-questions" },
-              "title": { "S": "2025 Application Questions" },
-              "description": { "S": "Adapted from the provided 2025 question set and mapped to the current schema contract." },
-              "route": { "S": "application" },
-              "applicableYears": { "L": [{ "N": "2025" }] },
-              "questions": {
-                "L": [
-                  {
-                    "M": {
-                      "id": { "S": "fullName" },
-                      "name": { "S": "fullName" },
-                      "formControlName": { "S": "fullName" },
-                      "type": { "S": "text" },
-                      "dataType": { "S": "string" },
-                      "label": { "S": "Full Legal Name" }
-                    }
-                  },
-                  {
-                    "M": {
-                      "id": { "S": "email" },
-                      "name": { "S": "email" },
-                      "formControlName": { "S": "email" },
-                      "type": { "S": "email" },
-                      "dataType": { "S": "string" },
-                      "label": { "S": "Email Address" }
-                    }
-                  },
-                  {
-                    "M": {
-                      "id": { "S": "phone" },
-                      "name": { "S": "phone" },
-                      "formControlName": { "S": "phone" },
-                      "type": { "S": "text" },
-                      "dataType": { "S": "string" },
-                      "label": { "S": "Phone Number" }
-                    }
-                  },
-                  {
-                    "M": {
-                      "id": { "S": "citizenshipStatus" },
-                      "name": { "S": "citizenshipStatus" },
-                      "formControlName": { "S": "citizenshipStatus" },
-                      "type": { "S": "radio" },
-                      "dataType": { "S": "string" },
-                      "label": { "S": "Are you a U.S. citizen?" },
-                      "options": {
-                        "L": [
-                          { "M": { "label": { "S": "Yes" }, "value": { "S": "Yes" } } },
-                          { "M": { "label": { "S": "No" }, "value": { "S": "No" } } }
-                        ]
-                      }
-                    }
-                  },
-                  {
-                    "M": {
-                      "id": { "S": "state" },
-                      "name": { "S": "state" },
-                      "formControlName": { "S": "state" },
-                      "type": { "S": "select" },
-                      "dataType": { "S": "string" },
-                      "label": { "S": "State of Residence" },
-                      "options": {
-                        "L": [
-                          { "M": { "label": { "S": "NY" }, "value": { "S": "NY" } } },
-                          { "M": { "label": { "S": "CA" }, "value": { "S": "CA" } } },
-                          { "M": { "label": { "S": "TX" }, "value": { "S": "TX" } } },
-                          { "M": { "label": { "S": "VA" }, "value": { "S": "VA" } } }
-                        ]
-                      }
-                    }
-                  },
-                  {
-                    "M": {
-                      "id": { "S": "isStudent" },
-                      "name": { "S": "isStudent" },
-                      "formControlName": { "S": "isStudent" },
-                      "type": { "S": "radio" },
-                      "dataType": { "S": "string" },
-                      "label": { "S": "Are you currently a student?" },
-                      "options": {
-                        "L": [
-                          { "M": { "label": { "S": "Yes" }, "value": { "S": "Yes" } } },
-                          { "M": { "label": { "S": "No" }, "value": { "S": "No" } } }
-                        ]
-                      }
-                    }
-                  },
-                  {
-                    "M": {
-                      "id": { "S": "schoolName" },
-                      "name": { "S": "schoolName" },
-                      "formControlName": { "S": "schoolName" },
-                      "type": { "S": "text" },
-                      "dataType": { "S": "string" },
-                      "label": { "S": "School Name" },
-                      "dependencies": {
-                        "L": [
-                          {
-                            "M": {
-                              "effect": { "S": "visible" },
-                              "when": { "S": "all" },
-                              "conditions": {
-                                "L": [
-                                  {
-                                    "M": {
-                                      "source": { "S": "answer" },
-                                      "field": { "S": "isStudent" },
-                                      "operator": { "S": "equals" },
-                                      "value": { "S": "Yes" }
-                                    }
-                                  }
-                                ]
-                              }
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  },
-                  {
-                    "M": {
-                      "id": { "S": "fieldOfStudy" },
-                      "name": { "S": "fieldOfStudy" },
-                      "formControlName": { "S": "fieldOfStudy" },
-                      "type": { "S": "text" },
-                      "dataType": { "S": "string" },
-                      "label": { "S": "Field of Study" }
-                    }
-                  },
-                  {
-                    "M": {
-                      "id": { "S": "whyApply" },
-                      "name": { "S": "whyApply" },
-                      "formControlName": { "S": "whyApply" },
-                      "type": { "S": "textarea" },
-                      "dataType": { "S": "string" },
-                      "label": { "S": "Why are you applying to this program?" }
-                    }
-                  },
-                  {
-                    "M": {
-                      "id": { "S": "heardAbout" },
-                      "name": { "S": "heardAbout" },
-                      "formControlName": { "S": "heardAbout" },
-                      "type": { "S": "multiCheckbox" },
-                      "dataType": { "S": "stringArray" },
-                      "label": { "S": "How did you hear about this program?" },
-                      "options": {
-                        "L": [
-                          { "M": { "label": { "S": "Friend" }, "value": { "S": "Friend" } } },
-                          { "M": { "label": { "S": "Social Media" }, "value": { "S": "Social Media" } } },
-                          { "M": { "label": { "S": "School" }, "value": { "S": "School" } } },
-                          { "M": { "label": { "S": "Other" }, "value": { "S": "Other" } } }
-                        ]
-                      }
-                    }
-                  }
-                ]
-              }
+  "TableName": "form-configurations",
+  "Item": {
+    "formId": {
+      "S": "generic-configurable-form"
+    },
+    "year": {
+      "N": "2025"
+    },
+    "name": {
+      "S": "Program Application"
+    },
+    "schemaVersion": {
+      "S": "application-2025.2"
+    },
+    "config": {
+      "M": {
+        "schemaVersion": {
+          "S": "application-2025.2"
+        },
+        "formId": {
+          "S": "generic-configurable-form"
+        },
+        "name": {
+          "S": "Program Application"
+        },
+        "activeYears": {
+          "L": [
+            {
+              "N": "2025"
+            },
+            {
+              "N": "2026"
+            }
+          ]
+        },
+        "context": {
+          "M": {
+            "applicationYear": {
+              "N": "2025"
+            },
+            "programCode": {
+              "S": "APPLICATION"
+            },
+            "applicantType": {
+              "S": "individual"
             }
           }
-        ]
+        },
+        "backendComputations": {
+          "L": []
+        },
+        "steps": {
+          "L": [
+            {
+              "M": {
+                "id": {
+                  "S": "application-questions"
+                },
+                "title": {
+                  "S": "2025 Application Questions"
+                },
+                "description": {
+                  "S": "Primary application intake questions for the 2025 year."
+                },
+                "route": {
+                  "S": "application"
+                },
+                "applicableYears": {
+                  "L": [
+                    {
+                      "N": "2025"
+                    }
+                  ]
+                },
+                "questions": {
+                  "L": [
+                    {
+                      "M": {
+                        "id": {
+                          "S": "fullName"
+                        },
+                        "name": {
+                          "S": "fullName"
+                        },
+                        "type": {
+                          "S": "text"
+                        },
+                        "dataType": {
+                          "S": "string"
+                        },
+                        "formControlName": {
+                          "S": "fullName"
+                        },
+                        "label": {
+                          "S": "Full Legal Name"
+                        },
+                        "validations": {
+                          "L": [
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "required"
+                                },
+                                "message": {
+                                  "S": "Full legal name is required."
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "minLength"
+                                },
+                                "value": {
+                                  "N": "2"
+                                },
+                                "message": {
+                                  "S": "Full legal name must be at least 2 characters."
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "M": {
+                        "id": {
+                          "S": "email"
+                        },
+                        "name": {
+                          "S": "email"
+                        },
+                        "type": {
+                          "S": "email"
+                        },
+                        "dataType": {
+                          "S": "string"
+                        },
+                        "formControlName": {
+                          "S": "email"
+                        },
+                        "label": {
+                          "S": "Email Address"
+                        },
+                        "validations": {
+                          "L": [
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "required"
+                                },
+                                "message": {
+                                  "S": "Email address is required."
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "email"
+                                },
+                                "message": {
+                                  "S": "Enter a valid email address."
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "M": {
+                        "id": {
+                          "S": "phone"
+                        },
+                        "name": {
+                          "S": "phone"
+                        },
+                        "type": {
+                          "S": "text"
+                        },
+                        "dataType": {
+                          "S": "string"
+                        },
+                        "formControlName": {
+                          "S": "phone"
+                        },
+                        "label": {
+                          "S": "Phone Number"
+                        },
+                        "validations": {
+                          "L": [
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "required"
+                                },
+                                "message": {
+                                  "S": "Phone number is required."
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "pattern"
+                                },
+                                "value": {
+                                  "S": "^[0-9()\\-\\s+]{10,20}$"
+                                },
+                                "message": {
+                                  "S": "Enter a valid phone number."
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "M": {
+                        "id": {
+                          "S": "citizenshipStatus"
+                        },
+                        "name": {
+                          "S": "citizenshipStatus"
+                        },
+                        "type": {
+                          "S": "radio"
+                        },
+                        "dataType": {
+                          "S": "string"
+                        },
+                        "formControlName": {
+                          "S": "citizenshipStatus"
+                        },
+                        "label": {
+                          "S": "Are you a U.S. citizen?"
+                        },
+                        "options": {
+                          "L": [
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "Yes"
+                                },
+                                "value": {
+                                  "S": "Yes"
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "No"
+                                },
+                                "value": {
+                                  "S": "No"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "validations": {
+                          "L": [
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "required"
+                                },
+                                "message": {
+                                  "S": "Select a citizenship response."
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "M": {
+                        "id": {
+                          "S": "state"
+                        },
+                        "name": {
+                          "S": "state"
+                        },
+                        "type": {
+                          "S": "select"
+                        },
+                        "dataType": {
+                          "S": "string"
+                        },
+                        "formControlName": {
+                          "S": "state"
+                        },
+                        "label": {
+                          "S": "State of Residence"
+                        },
+                        "options": {
+                          "L": [
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "NY"
+                                },
+                                "value": {
+                                  "S": "NY"
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "CA"
+                                },
+                                "value": {
+                                  "S": "CA"
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "TX"
+                                },
+                                "value": {
+                                  "S": "TX"
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "VA"
+                                },
+                                "value": {
+                                  "S": "VA"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "validations": {
+                          "L": [
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "required"
+                                },
+                                "message": {
+                                  "S": "Select a state of residence."
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "M": {
+                        "id": {
+                          "S": "isStudent"
+                        },
+                        "name": {
+                          "S": "isStudent"
+                        },
+                        "type": {
+                          "S": "radio"
+                        },
+                        "dataType": {
+                          "S": "string"
+                        },
+                        "formControlName": {
+                          "S": "isStudent"
+                        },
+                        "label": {
+                          "S": "Are you currently a student?"
+                        },
+                        "options": {
+                          "L": [
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "Yes"
+                                },
+                                "value": {
+                                  "S": "Yes"
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "No"
+                                },
+                                "value": {
+                                  "S": "No"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "validations": {
+                          "L": [
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "required"
+                                },
+                                "message": {
+                                  "S": "Select your student status."
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "M": {
+                        "id": {
+                          "S": "schoolName"
+                        },
+                        "name": {
+                          "S": "schoolName"
+                        },
+                        "type": {
+                          "S": "text"
+                        },
+                        "dataType": {
+                          "S": "string"
+                        },
+                        "formControlName": {
+                          "S": "schoolName"
+                        },
+                        "label": {
+                          "S": "School Name"
+                        },
+                        "validations": {
+                          "L": [
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "minLength"
+                                },
+                                "value": {
+                                  "N": "2"
+                                },
+                                "message": {
+                                  "S": "School name must be at least 2 characters."
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "dependencies": {
+                          "L": [
+                            {
+                              "M": {
+                                "effect": {
+                                  "S": "visible"
+                                },
+                                "when": {
+                                  "S": "all"
+                                },
+                                "conditions": {
+                                  "L": [
+                                    {
+                                      "M": {
+                                        "source": {
+                                          "S": "answer"
+                                        },
+                                        "field": {
+                                          "S": "isStudent"
+                                        },
+                                        "operator": {
+                                          "S": "equals"
+                                        },
+                                        "value": {
+                                          "S": "Yes"
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "effect": {
+                                  "S": "required"
+                                },
+                                "when": {
+                                  "S": "all"
+                                },
+                                "conditions": {
+                                  "L": [
+                                    {
+                                      "M": {
+                                        "source": {
+                                          "S": "answer"
+                                        },
+                                        "field": {
+                                          "S": "isStudent"
+                                        },
+                                        "operator": {
+                                          "S": "equals"
+                                        },
+                                        "value": {
+                                          "S": "Yes"
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "M": {
+                        "id": {
+                          "S": "fieldOfStudy"
+                        },
+                        "name": {
+                          "S": "fieldOfStudy"
+                        },
+                        "type": {
+                          "S": "text"
+                        },
+                        "dataType": {
+                          "S": "string"
+                        },
+                        "formControlName": {
+                          "S": "fieldOfStudy"
+                        },
+                        "label": {
+                          "S": "Field of Study"
+                        },
+                        "validations": {
+                          "L": [
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "required"
+                                },
+                                "message": {
+                                  "S": "Field of study is required."
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "M": {
+                        "id": {
+                          "S": "whyApply"
+                        },
+                        "name": {
+                          "S": "whyApply"
+                        },
+                        "type": {
+                          "S": "textarea"
+                        },
+                        "dataType": {
+                          "S": "string"
+                        },
+                        "formControlName": {
+                          "S": "whyApply"
+                        },
+                        "label": {
+                          "S": "Why are you applying to this program?"
+                        },
+                        "validations": {
+                          "L": [
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "required"
+                                },
+                                "message": {
+                                  "S": "A response is required."
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "maxLength"
+                                },
+                                "value": {
+                                  "N": "1000"
+                                },
+                                "message": {
+                                  "S": "Keep this answer under 1000 characters."
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "M": {
+                        "id": {
+                          "S": "heardAbout"
+                        },
+                        "name": {
+                          "S": "heardAbout"
+                        },
+                        "type": {
+                          "S": "multiCheckbox"
+                        },
+                        "dataType": {
+                          "S": "stringArray"
+                        },
+                        "formControlName": {
+                          "S": "heardAbout"
+                        },
+                        "label": {
+                          "S": "How did you hear about this program?"
+                        },
+                        "options": {
+                          "L": [
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "Friend"
+                                },
+                                "value": {
+                                  "S": "Friend"
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "Social Media"
+                                },
+                                "value": {
+                                  "S": "Social Media"
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "School"
+                                },
+                                "value": {
+                                  "S": "School"
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "Other"
+                                },
+                                "value": {
+                                  "S": "Other"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "validations": {
+                          "L": [
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "required"
+                                },
+                                "message": {
+                                  "S": "Select at least one referral source."
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "M": {
+                "id": {
+                  "S": "contact-preferences"
+                },
+                "title": {
+                  "S": "2025 Contact Preferences"
+                },
+                "description": {
+                  "S": "Follow-up preferences collected as a separate persisted step for 2025."
+                },
+                "route": {
+                  "S": "contact-preferences"
+                },
+                "submissionUrl": {
+                  "S": "/api/forms/generic-configurable-form/years/2025/steps/contact-preferences/submissions"
+                },
+                "applicableYears": {
+                  "L": [
+                    {
+                      "N": "2025"
+                    }
+                  ]
+                },
+                "questions": {
+                  "L": [
+                    {
+                      "M": {
+                        "id": {
+                          "S": "applicationEmail"
+                        },
+                        "name": {
+                          "S": "applicationEmail"
+                        },
+                        "type": {
+                          "S": "email"
+                        },
+                        "dataType": {
+                          "S": "string"
+                        },
+                        "formControlName": {
+                          "S": "applicationEmail"
+                        },
+                        "label": {
+                          "S": "Application Email"
+                        },
+                        "helpText": {
+                          "S": "Use the same email address used on the application step."
+                        },
+                        "validations": {
+                          "L": [
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "required"
+                                },
+                                "message": {
+                                  "S": "Application email is required."
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "email"
+                                },
+                                "message": {
+                                  "S": "Enter a valid email address."
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "M": {
+                        "id": {
+                          "S": "preferredContactMethod"
+                        },
+                        "name": {
+                          "S": "preferredContactMethod"
+                        },
+                        "type": {
+                          "S": "select"
+                        },
+                        "dataType": {
+                          "S": "string"
+                        },
+                        "formControlName": {
+                          "S": "preferredContactMethod"
+                        },
+                        "label": {
+                          "S": "Preferred Contact Method"
+                        },
+                        "options": {
+                          "L": [
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "Email"
+                                },
+                                "value": {
+                                  "S": "Email"
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "Phone"
+                                },
+                                "value": {
+                                  "S": "Phone"
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "Text Message"
+                                },
+                                "value": {
+                                  "S": "Text Message"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "validations": {
+                          "L": [
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "required"
+                                },
+                                "message": {
+                                  "S": "Select a preferred contact method."
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "M": {
+                        "id": {
+                          "S": "bestContactTime"
+                        },
+                        "name": {
+                          "S": "bestContactTime"
+                        },
+                        "type": {
+                          "S": "radio"
+                        },
+                        "dataType": {
+                          "S": "string"
+                        },
+                        "formControlName": {
+                          "S": "bestContactTime"
+                        },
+                        "label": {
+                          "S": "Best Time to Reach You"
+                        },
+                        "options": {
+                          "L": [
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "Morning"
+                                },
+                                "value": {
+                                  "S": "Morning"
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "Afternoon"
+                                },
+                                "value": {
+                                  "S": "Afternoon"
+                                }
+                              }
+                            },
+                            {
+                              "M": {
+                                "label": {
+                                  "S": "Evening"
+                                },
+                                "value": {
+                                  "S": "Evening"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "validations": {
+                          "L": [
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "required"
+                                },
+                                "message": {
+                                  "S": "Select the best contact time."
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "M": {
+                        "id": {
+                          "S": "smsOptIn"
+                        },
+                        "name": {
+                          "S": "smsOptIn"
+                        },
+                        "type": {
+                          "S": "checkbox"
+                        },
+                        "dataType": {
+                          "S": "boolean"
+                        },
+                        "formControlName": {
+                          "S": "smsOptIn"
+                        },
+                        "label": {
+                          "S": "I consent to receive text updates about my application."
+                        },
+                        "validations": {
+                          "L": [
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "requiredTrue"
+                                },
+                                "message": {
+                                  "S": "Text update consent is required for the contact preferences step."
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "dependencies": {
+                          "L": [
+                            {
+                              "M": {
+                                "effect": {
+                                  "S": "visible"
+                                },
+                                "when": {
+                                  "S": "all"
+                                },
+                                "conditions": {
+                                  "L": [
+                                    {
+                                      "M": {
+                                        "source": {
+                                          "S": "answer"
+                                        },
+                                        "field": {
+                                          "S": "preferredContactMethod"
+                                        },
+                                        "operator": {
+                                          "S": "equals"
+                                        },
+                                        "value": {
+                                          "S": "Text Message"
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "M": {
+                        "id": {
+                          "S": "contactNotes"
+                        },
+                        "name": {
+                          "S": "contactNotes"
+                        },
+                        "type": {
+                          "S": "textarea"
+                        },
+                        "dataType": {
+                          "S": "string"
+                        },
+                        "formControlName": {
+                          "S": "contactNotes"
+                        },
+                        "label": {
+                          "S": "Contact Notes"
+                        },
+                        "helpText": {
+                          "S": "Optional details about the best way to reach you."
+                        },
+                        "validations": {
+                          "L": [
+                            {
+                              "M": {
+                                "type": {
+                                  "S": "maxLength"
+                                },
+                                "value": {
+                                  "N": "500"
+                                },
+                                "message": {
+                                  "S": "Keep contact notes under 500 characters."
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
       }
     }
   }

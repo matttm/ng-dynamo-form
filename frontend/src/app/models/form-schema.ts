@@ -51,7 +51,7 @@ export interface BackendDependency {
 }
 
 export interface ValidationRule {
-  type: 'required' | 'min' | 'max' | 'pattern';
+  type: 'required' | 'requiredTrue' | 'email' | 'min' | 'max' | 'minLength' | 'maxLength' | 'pattern';
   value?: string | number;
   message: string;
 }

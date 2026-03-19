@@ -3,6 +3,8 @@ import type { FastifyReply, FastifyRequest } from 'fastify';
 import {
   ApplicationQuestionSubmissionRepository,
   type ApplicationQuestionsSubmissionPayload,
+  type ContactPreferencesSubmissionPayload,
+  type SupplementalBackgroundSubmissionPayload,
 } from '../services/application-question-submission-repository';
 import { FormConfigRepository } from '../services/form-config-repository';
 
@@ -20,7 +22,7 @@ interface SubmissionBody {
   payload?: unknown;
 }
 
-interface ConcreteApplicationQuestionsSubmissionBody {
+interface ConcreteStepSubmissionBody {
   formId?: unknown;
   year?: unknown;
   stepId?: unknown;
@@ -69,12 +71,45 @@ export function createFormsController(dependencies: FormsControllerDependencies)
     },
 
     /**
-     * Handles the concrete 2026 "application-questions" step.
-     * This is the only step endpoint that currently persists into MySQL.
+     * Handles the concrete 2025 "contact-preferences" step and persists it to MySQL.
+     */
+    async submitConcreteContactPreferences(
+      request: FastifyRequest<{
+        Body: ConcreteStepSubmissionBody;
+      }>,
+      reply: FastifyReply,
+    ) {
+      const payload = parseContactPreferencesPayload(request.body?.payload);
+
+      if (!payload.applicationEmail) {
+        return reply.code(400).send({
+          message: 'The 2025 contact preferences step requires payload.applicationEmail.',
+        });
+      }
+
+      await dependencies.applicationQuestionSubmissionRepository.saveContactPreferences({
+        formId: 'generic-configurable-form',
+        year: 2025,
+        stepId: 'contact-preferences',
+        payload,
+      });
+
+      return reply.code(202).send({
+        message: 'Contact preferences step payload saved.',
+        formId: 'generic-configurable-form',
+        year: 2025,
+        stepId: 'contact-preferences',
+        payload,
+        receivedAt: new Date().toISOString(),
+      });
+    },
+
+    /**
+     * Handles the concrete 2026 "application-questions" step and persists it to MySQL.
      */
     async submitConcreteApplicationQuestions(
       request: FastifyRequest<{
-        Body: ConcreteApplicationQuestionsSubmissionBody;
+        Body: ConcreteStepSubmissionBody;
       }>,
       reply: FastifyReply,
     ) {
@@ -86,7 +121,7 @@ export function createFormsController(dependencies: FormsControllerDependencies)
         });
       }
 
-      await dependencies.applicationQuestionSubmissionRepository.save({
+      await dependencies.applicationQuestionSubmissionRepository.saveApplicationQuestions({
         formId: 'generic-configurable-form',
         year: 2026,
         stepId: 'application-questions',
@@ -98,6 +133,40 @@ export function createFormsController(dependencies: FormsControllerDependencies)
         formId: 'generic-configurable-form',
         year: 2026,
         stepId: 'application-questions',
+        payload,
+        receivedAt: new Date().toISOString(),
+      });
+    },
+
+    /**
+     * Handles the concrete 2026 "supplemental-background" step and persists it to MySQL.
+     */
+    async submitConcreteSupplementalBackground(
+      request: FastifyRequest<{
+        Body: ConcreteStepSubmissionBody;
+      }>,
+      reply: FastifyReply,
+    ) {
+      const payload = parseSupplementalBackgroundPayload(request.body?.payload);
+
+      if (!payload.applicationEmail) {
+        return reply.code(400).send({
+          message: 'The 2026 supplemental background step requires payload.applicationEmail.',
+        });
+      }
+
+      await dependencies.applicationQuestionSubmissionRepository.saveSupplementalBackground({
+        formId: 'generic-configurable-form',
+        year: 2026,
+        stepId: 'supplemental-background',
+        payload,
+      });
+
+      return reply.code(202).send({
+        message: 'Supplemental background step payload saved.',
+        formId: 'generic-configurable-form',
+        year: 2026,
+        stepId: 'supplemental-background',
         payload,
         receivedAt: new Date().toISOString(),
       });
@@ -163,7 +232,7 @@ export function createFormsController(dependencies: FormsControllerDependencies)
   };
 }
 
-// Payload normalization for the concrete MySQL-backed 2026 step.
+// Payload normalization for the concrete MySQL-backed steps.
 function parseApplicationQuestionsPayload(input: unknown): ApplicationQuestionsSubmissionPayload {
   const payload = isRecord(input) ? input : {};
 
@@ -179,6 +248,30 @@ function parseApplicationQuestionsPayload(input: unknown): ApplicationQuestionsS
     whyApply: readNullableString(payload.whyApply),
     previousParticipation: readNullableString(payload.previousParticipation),
     referralSource: readNullableString(payload.referralSource),
+  };
+}
+
+function parseContactPreferencesPayload(input: unknown): ContactPreferencesSubmissionPayload {
+  const payload = isRecord(input) ? input : {};
+
+  return {
+    applicationEmail: readRequiredTrimmedString(payload.applicationEmail),
+    preferredContactMethod: readNullableString(payload.preferredContactMethod),
+    bestContactTime: readNullableString(payload.bestContactTime),
+    smsOptIn: readNullableBoolean(payload.smsOptIn),
+    contactNotes: readNullableString(payload.contactNotes),
+  };
+}
+
+function parseSupplementalBackgroundPayload(input: unknown): SupplementalBackgroundSubmissionPayload {
+  const payload = isRecord(input) ? input : {};
+
+  return {
+    applicationEmail: readRequiredTrimmedString(payload.applicationEmail),
+    graduationYear: readNullableNumber(payload.graduationYear),
+    portfolioUrl: readNullableString(payload.portfolioUrl),
+    needsAccessibilityAccommodation: readNullableBoolean(payload.needsAccessibilityAccommodation),
+    accessibilityDetails: readNullableString(payload.accessibilityDetails),
   };
 }
 
@@ -202,4 +295,25 @@ function readRequiredTrimmedString(value: unknown): string {
   }
 
   return value.trim();
+}
+
+function readNullableBoolean(value: unknown): boolean | null {
+  if (typeof value === 'boolean') {
+    return value;
+  }
+
+  return null;
+}
+
+function readNullableNumber(value: unknown): number | null {
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    return value;
+  }
+
+  if (typeof value === 'string' && value.trim() !== '') {
+    const parsedValue = Number(value);
+    return Number.isFinite(parsedValue) ? parsedValue : null;
+  }
+
+  return null;
 }
