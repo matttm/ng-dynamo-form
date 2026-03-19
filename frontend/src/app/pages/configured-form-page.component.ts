@@ -45,6 +45,7 @@ export class ConfiguredFormPageComponent {
   config: ConfigurableFormSchema | null = null;
   selectedFormId = '';
   selectedYear = 0;
+  activeStepId: string | null = null;
   submittingStepId: string | null = null;
   errorMessage = '';
   latestSubmissionMessage = '';
@@ -61,6 +62,7 @@ export class ConfiguredFormPageComponent {
         this.selectedFormId = resolvedConfig.formId;
         this.selectedYear = resolvedConfig.year;
         this.errorMessage = resolvedConfig.errorMessage;
+        this.activeStepId = null;
         this.latestSubmissionMessage = '';
         this.submittingStepId = null;
         this.latestSubmittedStepId = null;
@@ -125,6 +127,66 @@ export class ConfiguredFormPageComponent {
     return Array.isArray(currentValue) && currentValue.includes(option.value);
   }
 
+  get activeStep(): FormStepSchema | null {
+    if (!this.config) {
+      return null;
+    }
+
+    return this.config.steps.find((step) => step.id === this.activeStepId) ?? this.config.steps[0] ?? null;
+  }
+
+  setActiveStep(stepId: string): void {
+    this.activeStepId = stepId;
+  }
+
+  isStepActive(step: FormStepSchema): boolean {
+    return this.activeStep?.id === step.id;
+  }
+
+  getStepStatus(step: FormStepSchema): 'complete' | 'attention' | 'idle' {
+    if (this.latestSubmittedStepId === step.id) {
+      return 'complete';
+    }
+
+    const hasInvalidTouchedControl = step.questions.some((question) => {
+      const control = this.form.get(question.formControlName);
+
+      if (!control || control.disabled || !this.isQuestionVisible(question)) {
+        return false;
+      }
+
+      return control.invalid && (control.touched || control.dirty);
+    });
+
+    if (hasInvalidTouchedControl) {
+      return 'attention';
+    }
+
+    return 'idle';
+  }
+
+  getStepStatusSymbol(step: FormStepSchema): string {
+    switch (this.getStepStatus(step)) {
+      case 'complete':
+        return '✓';
+      case 'attention':
+        return '×';
+      default:
+        return '•';
+    }
+  }
+
+  getStepStatusLabel(step: FormStepSchema): string {
+    switch (this.getStepStatus(step)) {
+      case 'complete':
+        return 'Complete';
+      case 'attention':
+        return 'Needs attention';
+      default:
+        return 'Not started';
+    }
+  }
+
   shouldShowValidationMessage(question: FormQuestionSchema): boolean {
     const control = this.form.get(question.formControlName);
     return Boolean(control && control.invalid && (control.touched || control.dirty));
@@ -156,6 +218,14 @@ export class ConfiguredFormPageComponent {
     }
 
     return 'Enter a valid value.';
+  }
+
+  isQuestionRequired(question: FormQuestionSchema): boolean {
+    const explicitRequired = question.validations?.some(
+      (validation) => validation.type === 'required' || validation.type === 'requiredTrue',
+    );
+
+    return explicitRequired || this.evaluateEffect(question, 'required', false);
   }
 
   onStepSubmit(step: FormStepSchema): void {
@@ -215,6 +285,7 @@ export class ConfiguredFormPageComponent {
 
   private applyResponse(response: FormConfigApiResponse): void {
     this.config = response.config;
+    this.activeStepId = response.config.steps[0]?.id ?? null;
     this.buildForm(response.config);
   }
 

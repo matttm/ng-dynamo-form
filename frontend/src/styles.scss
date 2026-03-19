@@ -1,15 +1,21 @@
 :root {
-  --canvas: #f4ecdf;
-  --canvas-strong: #ead9c2;
-  --surface: rgba(255, 250, 243, 0.82);
-  --surface-strong: #fff8ef;
-  --ink: #1f2933;
-  --muted: #5d6672;
-  --line: rgba(31, 41, 51, 0.12);
-  --accent: #cf5f38;
-  --accent-deep: #245c55;
-  --success: #2c7a66;
-  --shadow: 0 30px 80px rgba(53, 38, 24, 0.12);
+  --canvas: #f4f8fc;
+  --canvas-strong: #ddeaf7;
+  --surface: #ffffff;
+  --surface-strong: #f7fbff;
+  --ink: #1f2937;
+  --muted: #5b6472;
+  --line: rgba(0, 84, 166, 0.18);
+  --accent: #0054a6;
+  --accent-deep: #0054a6;
+  --success: #1f6fb2;
+  --shadow: 0 20px 60px rgba(18, 57, 102, 0.08);
+  --ui-blue: #0054a6;
+  --ui-soft-blue: #dceaf8;
+  --ui-blue-muted: #4678ae;
+  --ui-text: #2b2f38;
+  --ui-text-soft: #4d5563;
+  --ui-white: #ffffff;
 }
 
 * {
@@ -24,11 +30,9 @@ body {
 
 body {
   color: var(--ink);
-  font-family: "Avenir Next", "Segoe UI", sans-serif;
+  font-family: "Avenir Next", "Helvetica Neue", sans-serif;
   background:
-    radial-gradient(circle at top left, rgba(207, 95, 56, 0.2), transparent 30%),
-    radial-gradient(circle at bottom right, rgba(36, 92, 85, 0.18), transparent 28%),
-    linear-gradient(180deg, var(--canvas) 0%, #f7f2e9 100%);
+    linear-gradient(180deg, #f6f9fc 0%, #edf4fb 100%);
 }
 
 button,
@@ -37,4 +41,3 @@ select,
 textarea {
   font: inherit;
 }
-

@@ -1,11 +1,12 @@
 <main class="shell">
-  <section class="control-panel">
-    <p class="eyebrow">Angular + Fastify + DynamoDB</p>
-    <h1>Backend-driven form renderer</h1>
-    <p class="intro">
-      The outer shell controls which backend configuration is requested. Change the year selector and the child route
-      reloads the form definition from Fastify.
-    </p>
+  <header class="shell-header">
+    <div>
+      <p class="eyebrow">Program Configuration Workspace</p>
+      <h1>Dynamic Intake Form</h1>
+      <p class="intro">
+        Switch the program year to load a different backend configuration and render its configured sections.
+      </p>
+    </div>
 
     <div class="selection-card">
       <label class="selection-field" for="formId">
@@ -16,26 +17,13 @@
       </label>
 
       <label class="selection-field" for="year">
-        <span>Year</span>
+        <span>Program Year</span>
         <select id="year" [(ngModel)]="selectedYear" (ngModelChange)="navigateToSelection()">
           <option *ngFor="let year of yearOptions" [ngValue]="year">{{ year }}</option>
         </select>
       </label>
     </div>
-
-    <div class="signal-list">
-      <span>Router outlet shell</span>
-      <span>Backend-driven config</span>
-      <span>Year switch simulation</span>
-    </div>
-
-    <div class="hero-note">
-      <strong>Current route</strong>
-      <p>
-        <code>/forms/{{ selectedFormId }}/years/{{ selectedYear }}</code>
-      </p>
-    </div>
-  </section>
+  </header>
 
   <section class="workspace-panel">
     <router-outlet></router-outlet>
