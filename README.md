@@ -2,6 +2,8 @@
 
 Initial workspace for a schema-driven Angular form application backed by DynamoDB, a Fastify API, and MySQL.
 
+Please note that this is a very minimal-effort POC to explore the benefits and feasibility of a dynamically generated form.
+
 ## Why this setup matters
 
 This application is not shipping a hard-coded Angular form. The frontend asks the backend for the active form configuration for a specific `formId` and `year`, and the backend returns the structure of the experience at runtime. That means the rendered sections, labels, validations, dependencies, submission URLs, and backend persistence behavior can change without rebuilding the frontend for every program-year adjustment.
