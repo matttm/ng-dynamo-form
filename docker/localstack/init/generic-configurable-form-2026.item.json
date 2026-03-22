@@ -926,6 +926,40 @@
                               }
                             }
                           ]
+                        },
+                        "dependencies": {
+                          "L": [
+                            {
+                              "M": {
+                                "effect": {
+                                  "S": "hidden"
+                                },
+                                "when": {
+                                  "S": "all"
+                                },
+                                "conditions": {
+                                  "L": [
+                                    {
+                                      "M": {
+                                        "source": {
+                                          "S": "answer"
+                                        },
+                                        "field": {
+                                          "S": "previousParticipation"
+                                        },
+                                        "operator": {
+                                          "S": "equals"
+                                        },
+                                        "value": {
+                                          "S": "Yes"
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          ]
                         }
                       }
                     },

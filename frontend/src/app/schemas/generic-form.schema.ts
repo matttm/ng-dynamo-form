@@ -454,6 +454,20 @@ export const GENERIC_FORM_SCHEMA_2026: ConfigurableFormSchema = {
             pattern('^https?://.+', 'Enter a valid URL beginning with http:// or https://.'),
             maxLength(512, 'Keep the URL under 512 characters.'),
           ],
+          dependencies: [
+            {
+              effect: 'hidden',
+              when: 'all',
+              conditions: [
+                {
+                  source: 'answer',
+                  field: 'previousParticipation',
+                  operator: 'equals',
+                  value: 'Yes',
+                },
+              ],
+            },
+          ],
         },
         {
           id: 'needsAccessibilityAccommodation',

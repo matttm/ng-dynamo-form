@@ -8,7 +8,7 @@ export type DependencyOperator =
   | 'lessThanOrEqual'
   | 'includes'
   | 'exists';
-export type DependencyEffect = 'visible' | 'enabled' | 'required';
+export type DependencyEffect = 'visible' | 'hidden' | 'enabled' | 'required';
 export type QuestionType =
   | 'text'
   | 'email'

@@ -100,7 +100,10 @@ export class ConfiguredFormPageComponent {
   }
 
   isQuestionVisible(question: FormQuestionSchema): boolean {
-    return this.evaluateEffect(question, 'visible', true);
+    const passesVisibleRules = this.evaluateEffect(question, 'visible', true);
+    const matchesHiddenRules = this.evaluateEffect(question, 'hidden', false);
+
+    return passesVisibleRules && !matchesHiddenRules;
   }
 
   toggleMultiCheckbox(question: FormQuestionSchema, option: SchemaOption, checked: boolean): void {
@@ -349,7 +352,11 @@ export class ConfiguredFormPageComponent {
     }
   }
 
-  private evaluateEffect(question: FormQuestionSchema, effect: 'visible' | 'enabled' | 'required', fallback: boolean): boolean {
+  private evaluateEffect(
+    question: FormQuestionSchema,
+    effect: 'visible' | 'hidden' | 'enabled' | 'required',
+    fallback: boolean,
+  ): boolean {
     const rules = question.dependencies?.filter((dependency) => dependency.effect === effect) ?? [];
 
     if (rules.length === 0) {
